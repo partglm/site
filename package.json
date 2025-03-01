@@ -8,5 +8,15 @@
     "nodemailer": "^6.10.0",
     "path": "^0.12.7",
     "socket.io": "^4.8.1"
-  }
+  },
+  "name": "site",
+  "version": "1.0.0",
+  "main": "MAIN.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node MAIN.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
