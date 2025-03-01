@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
@@ -12,9 +13,8 @@
   "name": "site",
   "version": "1.0.0",
   "main": "MAIN.js",
-  "devDependencies": {},
   "scripts": {
-    "start": "node publique/MAIN.js"
+    "start": "node MAIN.js"
   },
   "author": "",
   "license": "ISC",

@@ -7,9 +7,9 @@ let accounts = {};
 fs.readFile('account.json', (error, data) => {
   if (!error) {
     accounts = JSON.parse(data);
-    console.log('Comptes chargés:', Object.keys(accounts));
+    logEvent('Comptes chargés:', Object.keys(accounts));
   } else {
-    console.log('Erreur lecture account.json:', error);
+    logEvent('Erreur lecture account.json:', error);
   }
 });
 
