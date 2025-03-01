@@ -14,7 +14,7 @@
   "main": "MAIN.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node MAIN.js"
+    "start": "node publique/MAIN.js"
   },
   "author": "",
   "license": "ISC",
