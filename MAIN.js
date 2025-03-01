@@ -10,14 +10,9 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 app.use(express.json());
-
-// Configuration des routes
 setupRoutes(app);
-
-// Configuration de Socket.IO
 setupSocket(io);
 
-// Lancement du serveur
 if (EULA) {
   server.listen(PORT, '0.0.0.0', () => {
     console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
