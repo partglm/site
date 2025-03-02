@@ -1,5 +1,16 @@
 const fs = require('fs');
 
+class log {
+  constructor(input) {
+    this.input = input
+  }
+  logger() {
+    console.log(this.input)
+  }
+}
+
+
+
 function logEvent(message) {
   const timestamp = new Date().toISOString();
   const logEntry = `[${timestamp}] ${message}\n`;
@@ -7,9 +18,9 @@ function logEvent(message) {
   console.log(logEntry);
 }
 
-function logAccess(req) {
+function logip(req) {
   const clientIp = req.socket.remoteAddress;
   logEvent(`Accès depuis ${clientIp} à ${req.path}`);
 }
 
-module.exports = { logEvent, logAccess };
+module.exports = { log, logip };
