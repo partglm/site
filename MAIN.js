@@ -1,16 +1,15 @@
 const express = require('express');
 const http = require('http');
-const { setupRoutes } = require('./file/routes');
 const { EULA, PORT} = require('./file/config');
 const {log} = require('./file/logger')
 const {load} = require('./file/auth')
+const {app} = require('./file/app')
+const {get} = require('./file/routes')
 
-const app = express();
 const server = http.createServer(app);
-
 app.use(express.json());
-setupRoutes(app);
-new load
+new load()
+new get()
 
 if (EULA) {
   server.listen(PORT, '0.0.0.0', () => {

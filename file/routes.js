@@ -1,11 +1,15 @@
 const path = require('path');
-const { logEvent, logAccess } = require('./logger');
+const app = require('./app')
+const { log, logip } = require('./logger');
 
-function setupRoutes(app) {
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'home.html'));
-    logAccess(req);
-  });
-}
+class get {
+  setup () {
 
-module.exports = { setupRoutes };
+    app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname, 'home.html'));
+      logip(req);
+    });
+
+  
+}}
+module.exports = {get}

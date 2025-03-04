@@ -6,6 +6,7 @@ class log {
   }
   logger() {
     console.log(this.input)
+    return this.input
   }
 }
 

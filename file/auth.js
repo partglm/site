@@ -4,15 +4,6 @@ const { ADMIN_USER, ADMIN_PASS } = require('./config');
 
 let accounts = {};
 
-fs.readFile('./data/account.json', (error, data) => {
-  if (!error) {
-    accounts = JSON.parse(data);
-    console.table(Object.keys(accounts))
-  } else {
-    new log('Erreur lecture account.json:', error);
-  }
-});
-
 class auth {
   constructor (username, password) {
     this.user = username
@@ -43,6 +34,7 @@ class load {
       new Error(err)
       return false
     }
+    new log("accounts loaded")
     return true
   }
 }
