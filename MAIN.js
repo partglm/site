@@ -2,13 +2,13 @@ const express = require('express');
 const http = require('http');
 const { EULA, PORT} = require('./file/config');
 const {log} = require('./file/logger')
-const {load} = require('./file/auth')
+const {auth} = require('./file/auth')
 const {app} = require('./file/app')
 const {get} = require('./file/routes')
 
 const server = http.createServer(app);
 app.use(express.json());
-new load()
+new auth().load()
 new get()
 
 if (EULA) {
@@ -16,5 +16,5 @@ if (EULA) {
   new log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
   });
 } else {
-  new log('EULA non acceptée. Serveur non démarré.');
+  new Error('EULA non acceptée. Serveur non démarré.');
 }

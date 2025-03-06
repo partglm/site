@@ -1,10 +1,10 @@
 const fs = require('fs');
+const path = require('path')
 
 class log {
   constructor(input) {
     this.input = input
-  }
-  logger() {
+
     console.log(this.input)
     return this.input
   }
@@ -14,8 +14,8 @@ class log {
 
 function logEvent(message) {
   const timestamp = new Date().toISOString();
-  const logEntry = `[${timestamp}] ${message}\n`;
-  fs.appendFileSync('log.txt', logEntry, 'utf8');
+  const logEntry = `[${timestamp}] ${message}`;
+  fs.appendFileSync(path.join(__dirname, 'data/data.txt'), `${logEntry}\n`, 'utf8');
   console.log(logEntry);
 }
 

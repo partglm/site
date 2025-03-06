@@ -8,9 +8,7 @@ class auth {
   constructor (username, password) {
     this.user = username
     this.mdp = password
-  }
 
-  auth () {
     if (this.user === ADMIN_USER && this.mdp === ADMIN_PASS) {
       return 'ADMIN';
     }
@@ -22,12 +20,10 @@ class auth {
     }
     return `the account: ${this.user} does not exist`;
   }
-}
 
-class load {
-  load () {
+  async load () {    
     try {
-      const result = fs.promises.readFile('./data/account.json')
+      const result = await fs.promises.readFile('./data/account.json')
       accounts = JSON.parse(result)
     }
     catch(err) {
@@ -38,4 +34,5 @@ class load {
     return true
   }
 }
-module.exports = { auth, load };
+
+module.exports = { auth };
