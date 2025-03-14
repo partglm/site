@@ -10,6 +10,15 @@ class log {
   }
 }
 
+class logTable {
+  constructor(input) {
+    this.input = input
+
+    console.table(this.input)
+    return this.input
+  }
+}
+
 
 
 function logEvent(message) {
@@ -24,4 +33,4 @@ function logip(req) {
   logEvent(`Accès depuis ${clientIp} à ${req.path}`);
 }
 
-module.exports = { log, logip };
+module.exports = { log, logip, logTable };

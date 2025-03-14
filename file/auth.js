@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { log } = require('./logger');
+const { log, logTable } = require('./logger');
 const { ADMIN_USER, ADMIN_PASS } = require('./config');
 
 let accounts = {};
@@ -27,11 +27,15 @@ class auth {
       accounts = JSON.parse(result)
     }
     catch(err) {
-      new Error(err)
-      return false
+     throw new Error(err)
     }
     new log("accounts loaded")
     return true
+  }
+
+  getAccounts () {
+    new logTable(accounts)
+    return Array.from(accounts)
   }
 }
 
