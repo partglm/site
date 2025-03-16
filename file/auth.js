@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path')
 const { log, logTable } = require('./logger');
 const { ADMIN_USER, ADMIN_PASS } = require('./config');
 
@@ -23,17 +24,13 @@ class auth {
 
   async load () {    
     try {
-      const result = await fs.promises.readFile('./data/account.json')
+      const result = await fs.promises.readFile(path.join(__dirname, 'data', 'account.json'))
       accounts = JSON.parse(result)
     }
     catch(err) {
-     throw new Error(err)
+     throw err
     }
-    new log("accounts loaded")
-    return true
-  }
-
-  getAccounts () {
+    new log("accounts loaded:")
     new logTable(accounts)
     return Array.from(accounts)
   }
