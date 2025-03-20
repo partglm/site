@@ -11,7 +11,7 @@ class post {
             
             if (authentified == 'ADMIN') {
                 res.status(200).json({ securitynum : 0, message: '/admin'})
-                return}
+               return}
 
             if (authentified == 'USER') {
                 res.status(200).json({ securitynum : 1, message: 'ok'})

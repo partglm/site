@@ -189,5 +189,38 @@
 
 <script>
     const socket = io()
+    const CONNECT = document.getElementById('connect')
+    const PSE = document.getElementById('pse')
+    const MDP = document.getElementById('mdp')
+    const EULALABEL = document.getElementById('eulalabel')
+    const POSTS = document.getElementById('posts')
+    const TIC = document.getElementById('tic')
+
+    function authUserOK () {
+        EULALABEL.style.display = 'none'
+        POSTS.style.display = 'none'
+        TIC.style.display = 'block'
+    }
+
+    CONNECT.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/auth', {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: PSE.value, mdp: MDP.value })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                if (data.securitynum == 0) window.location.href = data.message
+                if (data.securitynum == 1) authUserOK()
+            } else {
+                alert(data.message)
+            }
+        } catch (error) {
+            console.error('Erreur réseau ou serveur :', error);
+        }
+    });
 </script>
 </body>
