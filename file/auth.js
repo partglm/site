@@ -9,17 +9,6 @@ class auth {
   constructor (username, password) {
     this.user = username
     this.mdp = password
-
-    if (this.user === ADMIN_USER && this.mdp === ADMIN_PASS) {
-      return 'ADMIN';
-    }
-    if (accounts[this.user] && accounts[this.user].mdp === this.mdp) {
-      return 'USER';
-    }
-    if (accounts[this.user]) {
-      return `the password for ${this.user} is incorrect`
-    }
-    return `the account: ${this.user} does not exist`;
   }
 
   async load () {    
@@ -32,7 +21,21 @@ class auth {
     }
     new log("accounts loaded:")
     new logTable(accounts)
+    new log("admin account: "+ ADMIN_PASS +" "+ ADMIN_USER)
     return Array.from(accounts)
+  }
+
+  authentication () {
+    if (this.user === ADMIN_USER && this.mdp === ADMIN_PASS) {
+      return 'ADMIN';
+    }
+    if (accounts[this.user] && accounts[this.user].mdp === this.mdp) {
+      return 'USER';
+    }
+    if (accounts[this.user]) {
+      return `the password for ${this.user} is incorrect`
+    }
+    return `the account: ${this.user} does not exist`;
   }
 }
 

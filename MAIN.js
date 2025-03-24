@@ -5,12 +5,10 @@ const {auth} = require('./file/auth')
 const {app, server} = require('./file/app')
 const {get} = require('./file/routes')
 const SocketManager = require('./file/socket')
-const post = require('./file/post')
 
 app.use(express.json());
 new auth().load()
 new get()
-new post()
 const socketManager = new SocketManager(server);
 
 if (EULA) {

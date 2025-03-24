@@ -1,5 +1,6 @@
 const path = require('path');
 const app = require('./app')
+const router = require('./post')
 const { log, logip } = require('./logger');
 
 class get {
@@ -12,16 +13,12 @@ class get {
       logip(req);
     });
 
-    app2.get('/*', (req,res) => {
-      res.sendFile(path.join(prepath, req.path))
-      logip(req)
-    })
+    app2.use('/api', router)
 
     app2.use((req, res) => {
       res.status(404).sendFile('img/featured_404.jpg', { root: __dirname });
-      console.log('error 404 detected');
+      new log('error 404 detected');
     })
     
-  
 }}
 module.exports = {get}
