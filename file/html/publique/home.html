@@ -197,9 +197,15 @@
     const TIC = document.getElementById('tic')
     const POSTSFORM = document.getElementById("post-form")
     const SHOWMESSAGE = document.getElementById("Affichémessage")
+    const EULABOOLEAN = false
 
     POSTSFORM.style.display = 'none'
     SHOWMESSAGE.style.display = 'none'
+
+    function eulaBooleaner () {
+        if (EULABOOLEAN) {EULABOOLEAN = false; return}
+        EULABOOLEAN = true
+    }
 
     function authUserOK () {
         EULALABEL.style.display = 'none'
@@ -210,6 +216,7 @@
     }
 
     CONNECT.addEventListener('click', async () => {
+        if (EULABOOLEAN = false) {return alert("veuillez accepter les conditions générales d'utilisation")}
         try {
             const response = await fetch('/api/auth', {
                 method: 'POST',

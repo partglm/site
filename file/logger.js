@@ -5,7 +5,7 @@ class log {
   constructor(input) {
     this.input = input
 
-    console.log(this.input)
+    logEvent(this.input)
     return this.input
   }
 }
