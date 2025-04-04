@@ -197,7 +197,9 @@
     const TIC = document.getElementById('tic')
     const POSTSFORM = document.getElementById("post-form")
     const SHOWMESSAGE = document.getElementById("Affichémessage")
-    let EULABOOLEAN = false
+    const MS = document.getElementById('ms')
+    let EULABOOLEAN = null
+    let accountloaded = null
 
     POSTSFORM.style.display = 'none' 
     SHOWMESSAGE.style.display = 'none'
@@ -207,12 +209,14 @@
         EULABOOLEAN = true
     }
 
-    function authUserOK () {
+    function authUserOK (name) {
         EULALABEL.style.display = 'none'
         POSTS.style.display = 'none'
         TIC.style.display = 'block'
         POSTSFORM.style.display = 'block'
         SHOWMESSAGE.style.display = 'block'
+        
+        accountloaded = name
     }
 
     CONNECT.addEventListener('click', async () => {
@@ -228,7 +232,7 @@
             const data = await response.json();
             if (response.ok) {
                 if (data.securitynum == 0) window.location.href = data.message
-                if (data.securitynum == 1) authUserOK()
+                if (data.securitynum == 1) authUserOK(data.name)
                 if (data.securitynum == 2) alert(data.message)
             } else {
                 alert(JSON.stringify(data.message, null, 2))
@@ -237,5 +241,18 @@
             console.error('Erreur réseau ou serveur :', error);
         }
     });
+
+    async function sendmessage () {
+        const message = MS.value
+        MS.value = null
+        
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                    'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message, who: accountloaded, page: windows.location.href})
+        })
+    }
 </script>
 </body>

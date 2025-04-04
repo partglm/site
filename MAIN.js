@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors')
 const {EULA, PORT} = require('./file/config');
 const {log} = require('./file/logger')
 const {auth} = require('./file/auth')
@@ -7,6 +8,7 @@ const {get} = require('./file/routes')
 const SocketManager = require('./file/socket')
 
 app.use(express.json());
+app.use(cors({origin: `localhost:${PORT}`}));
 new auth().load()
 new get()
 const socketManager = new SocketManager(server);

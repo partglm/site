@@ -10,6 +10,16 @@ class log {
   }
 }
 
+class logChat extends log {
+  constructor (message, who) {
+    super(`${message} send by ${who}`)
+    
+    const timestamp = new Date().toLocaleString();
+    const logEntry = `[${timestamp}]: ${message} send by ${who}`;
+    fs.appendFileSync(path.join(__dirname, 'data/chat.txt'), `${logEntry}\n`, 'utf8');
+  }
+}
+
 class logTable {
   constructor(input) {
     this.input = input
@@ -22,8 +32,8 @@ class logTable {
 
 
 function logEvent(message) {
-  const timestamp = new Date().toISOString();
-  const logEntry = `[${timestamp}] ${message}`;
+  const timestamp = new Date().toLocaleString();
+  const logEntry = `[${timestamp}]: ${message}`;
   fs.appendFileSync(path.join(__dirname, 'data/data.txt'), `${logEntry}\n`, 'utf8');
   console.log(logEntry);
 }
@@ -33,4 +43,4 @@ function logip(req) {
   logEvent(`Accès depuis ${clientIp} à ${req.path}`);
 }
 
-module.exports = { log, logip, logTable };
+module.exports = { log, logip, logTable, logChat };
