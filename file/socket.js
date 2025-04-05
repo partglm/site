@@ -1,12 +1,13 @@
 const { Server } = require("socket.io");
 const { log } = require("./logger")
+const {PORT} = require('./config')
 
 class SocketManager {
     constructor(server) {
         // Initialiser Socket.io avec le serveur HTTP
         this.io = new Server(server, {
             cors: {
-                origin: "*", // Autoriser tous les clients (à adapter)
+                origin: `localhost:${PORT}`, // Autoriser tous les clients (à adapter)
                 methods: ["GET", "POST"]
             }
         });
@@ -20,7 +21,7 @@ class SocketManager {
     }
 
     // Méthode personnalisée pour envoyer un message à tous les clients
-    myWish(message) {
+    static myWish(message) {
         new log(`Envoi du message à tous les clients: ${message}`);
         this.io.emit("message", message);
     }
