@@ -31,7 +31,7 @@
         margin-bottom: 20px;
     }
 
-    #Affichémessage {
+    #showConversation {
         background-color: #fafafa;
         padding: 20px;
         margin-bottom: 20px;
@@ -165,13 +165,8 @@
 </head>   
 <body>  
    <div class="container">     
-        <h1 id="lastmessage">derniers message:</h1>
-        <div  class="Ttrue" id="Affichémessage"></div>
-
-        <section id="post-form">
-            <textarea id="ms" class="Ttrue" name="message" placeholder="Écrivez votre message ici"></textarea>
-            <button id="send">envoyez</button> 
-        </section>
+        <h1 id="listConversation">list of conversation</h1>
+        <div  class="Ttrue" id="showConversation"></div>
 
         <section id="posts"></section>
             <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
@@ -183,7 +178,9 @@
         
         <label for="eula" id="eulalabel">
             <input type="checkbox" id="eula">
-            J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
+            <!-- J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
+            
+            //////delete it and add it to /register                                 -->
         </label>
     </div>    
 
@@ -195,16 +192,15 @@
     const EULALABEL = document.getElementById('eulalabel')
     const POSTS = document.getElementById('posts')
     const TIC = document.getElementById('tic')
-    const POSTSFORM = document.getElementById("post-form")
-    const SHOWMESSAGE = document.getElementById("Affichémessage")
+    const REG = document.getElementById('reg')
+    const SHOWCONVERSATION = document.getElementById("showConversation")
     const MS = document.getElementById('ms')
     let EULABOOLEAN = null
     let accountloaded = null
     let numberOfmessage = 0
     let listOfmessage = []
 
-    POSTSFORM.style.display = 'none' 
-    SHOWMESSAGE.style.display = 'none'
+    SHOWCONVERSATION.style.display = 'none'
 
     function eulaBooleaner () {
         if (EULABOOLEAN) {EULABOOLEAN = false; return}
@@ -214,9 +210,12 @@
     function authUserOK (name) {
         EULALABEL.style.display = 'none'
         POSTS.style.display = 'none'
+        PSE.style.display = 'none'
+        MDP.style.display = 'none'
+        REG.style.display = 'none'
+        CONNECT.style.display = 'none'
         TIC.style.display = 'block'
-        POSTSFORM.style.display = 'block'
-        SHOWMESSAGE.style.display = 'block'
+        SHOWCONVERSATION.style.display = 'block'
         
         accountloaded = name
     }
@@ -232,33 +231,41 @@
                 body: JSON.stringify({ name: PSE.value, mdp: MDP.value })
             });
             const data = await response.json();
-            if (response.ok) {
-                if (data.securitynum == 0) window.location.href = data.message
-                if (data.securitynum == 1) authUserOK(data.name)
-                if (data.securitynum == 2) alert(data.message)
-            } else {
-                alert(JSON.stringify(data.message, null, 2))
-            }
+            if (!response.ok) return alert(JSON.stringify(data.message, null, 2));
+            
+            if (data.securitynum == 0) window.location.href = data.message
+            if (data.securitynum == 1) authUserOK(data.name)
+            if (data.securitynum == 2) return alert(data.message);
+
+            getListOfConversation(name)
         } catch (error) {
             console.error('Erreur réseau ou serveur :', error);
         }
     });
 
-    async function sendmessage () {
-        const message = MS.value
-        MS.value = null
-        
-        const response = await fetch('/api/chat', {
+    async function getListOfConversation (name) {
+        const response = await fetch('/api/listconversation', {
             method: 'POST',
             headers: {
-                    'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message, who: accountloaded, page: windows.location.href})
-        })
+                        'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({name: name})
+        });
+        const data = await response.json()
+        if (!response.ok) return alert(JSON.stringify(data.message, null, 2));
+
+        displayconversation(data.ListOfConversation)
     }
-    socket.on('message', (message, id) => {
-        listOfmessage.unshift({content: message, id: id})
-        if(listOfmessage.length > 30) {}
-    })
+
+    function displayconversation(listConversation) {
+        listConversation.forEach(conversation => {
+            const newConversation = document.createElement('a')
+            newConversation.classList.add('conversation')
+            newConversation.textContent = conversation.name
+            newConversation.href = conversation.href
+            SHOWCONVERSATION.appendChild(newConversation)
+        });
+    }
+
 </script>
 </body>
