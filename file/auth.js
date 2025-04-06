@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path')
 const { log, logTable } = require('./logger');
-const { ADMIN_USER, ADMIN_PASS } = require('./config');
+const { ADMIN_USER, ADMIN_PASS, ADMIN_ID } = require('./config');
 
 let accounts = {};
 
@@ -36,6 +36,11 @@ class auth {
       return `the password for ${this.user} is incorrect`
     }
     return `the account: ${this.user} does not exist`;
+  }
+  
+  async getID () {
+    if (this.user === ADMIN_USER) return ADMIN_ID;
+    return accounts[this.user].id
   }
 }
 
