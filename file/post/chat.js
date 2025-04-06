@@ -15,7 +15,11 @@ routerChat.post('/', (req,res) => {
 
     if (page == '/') {
         messageHistory.push({content: `${who}:  ${message}`, id : `0${counterOfMessage}`})
-        socketManager.myWish(`${who}: ${message}`)
+        socketManager.sendMessage(`${who}: ${message}`, `0${counterOfMessage}`)
+    }
+    if (page == '/admin') {
+        messageHistory.push({content: `${who}:  ${message}`, id : `1${counterOfMessage}`})
+        socketManager.sendMessage(`${who}: ${message}`, `1${counterOfMessage}`)
     }
 })
 

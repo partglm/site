@@ -200,6 +200,8 @@
     const MS = document.getElementById('ms')
     let EULABOOLEAN = null
     let accountloaded = null
+    let numberOfmessage = 0
+    let listOfmessage = []
 
     POSTSFORM.style.display = 'none' 
     SHOWMESSAGE.style.display = 'none'
@@ -254,5 +256,9 @@
             body: JSON.stringify({ message, who: accountloaded, page: windows.location.href})
         })
     }
+    socket.on('message', (message, id) => {
+        listOfmessage.unshift({content: message, id: id})
+        if(listOfmessage.length > 30) {}
+    })
 </script>
 </body>

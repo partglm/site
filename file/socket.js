@@ -21,9 +21,9 @@ class SocketManager {
     }
 
     // Méthode personnalisée pour envoyer un message à tous les clients
-    static myWish(message) {
+    static sendMessage(message, id) {
         new log(`Envoi du message à tous les clients: ${message}`);
-        this.io.emit("message", message);
+        this.io.emit("message", (message, id));
     }
 }
 
