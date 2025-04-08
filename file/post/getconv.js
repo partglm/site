@@ -8,7 +8,7 @@ routergetConv.post('/', (req,res) => {
     const {name, mdp} = req.body
     const conversationClass = new conversation(name, mdp)
     const listOfConv = conversationClass.getconversationForUser()
-    res.json({ ListOfConversation})
+    res.json({ ListOfConversation: listOfConv})
 })
 
 module.exports = routergetConv

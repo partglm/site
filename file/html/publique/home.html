@@ -171,13 +171,13 @@
         <section id="posts"></section>
             <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
             <textarea id="mdp" class="Ffalse" placeholder="Entrez votre mot de passe"></textarea>
-            <button class="Ffalse" id="connect">Log In</button>
+            <button class="Ffalse" id="connect" onclick="OnConnectLogIN()">Log In</button>
             <a id="reg" href="/register">Sign In</a>
             <a id="tic">Pour créer un ticket, envoyez un mail à goasp145@gmail.com. Vous recevrez une réponse rapidement par mail.</a>
         </section>
         
         <label for="eula" id="eulalabel">
-            <input type="checkbox" id="eula">
+            <input type="checkbox" id="eula" onclick="eulaBooleaner()">
             <!-- J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
             
             //////delete it and add it to /register                                 -->
@@ -199,16 +199,23 @@
     let accountloaded = null
     let numberOfmessage = 0
     let listOfmessage = []
-    let passwordRegistry = null
 
     SHOWCONVERSATION.style.display = 'none'
+
+    if (localStorage.getItem("user") != null
+        && localStorage.getItem("pass") != null)
+    {
+        OnConnectLogIN(localStorage.getItem("user"),
+            localStorage.getItem("pass"))
+    }
+
 
     function eulaBooleaner () {
         if (EULABOOLEAN) {EULABOOLEAN = false; return}
         EULABOOLEAN = true
     }
 
-    function authUserOK (name) {
+    function authUserOK (name,mdp) {
         EULALABEL.style.display = 'none'
         POSTS.style.display = 'none'
         PSE.style.display = 'none'
@@ -218,45 +225,52 @@
         TIC.style.display = 'block'
         SHOWCONVERSATION.style.display = 'block'
         
+         
+        localStorage.setItem("user",name)
+        localStorage.setItem("pass",mdp)
         accountloaded = name
-        passwordRegistry = MDP.value
     }
 
-    CONNECT.addEventListener('click', async () => {
-        if (EULABOOLEAN = false) {return alert("veuillez accepter les conditions générales d'utilisation")}
+    async function OnConnectLogIN (name=PSE.value, mdp=MDP.value) {
+        if (EULABOOLEAN === false) {return alert("veuillez accepter les conditions générales d'utilisation")}
         try {
             const response = await fetch('/api/auth', {
                 method: 'POST',
                 headers: {
                         'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name: PSE.value, mdp: MDP.value })
+                body: JSON.stringify({ name: name, mdp: mdp })
             });
             const data = await response.json();
             if (!response.ok) return alert(JSON.stringify(data.message, null, 2));
             
             if (data.securitynum == 0) window.location.href = data.message
-            if (data.securitynum == 1) authUserOK(data.name)
+            if (data.securitynum == 1) authUserOK(data.name, mdp)
             if (data.securitynum == 2) return alert(data.message);
 
-            getListOfConversation(name)
+            const a = await getListOfConversation(name, mdp)
         } catch (error) {
-            console.error('Erreur réseau ou serveur :', error);
+            throw console.error('Erreur réseau ou serveur :', error);
         }
-    });
+    };
 
-    async function getListOfConversation (name) {
-        const response = await fetch('/api/getconv', {
-            method: 'POST',
-            headers: {
-                        'Content-Type': 'application/json'
-                },
-            body: JSON.stringify({name: name, mdp: passwordRegistry})
-        });
-        const data = await response.json()
-        if (!response.ok) return alert(JSON.stringify(data.message, null, 2));
-
-        displayconversation(data.ListOfConversation)
+    async function getListOfConversation (name, mdp) {
+        try {
+         const response2nd = await fetch('/api/getconv', {
+             method: 'POST',
+             headers: {
+                         'Content-Type': 'application/json'
+                 },
+             body: JSON.stringify({name: name, mdp: mdp})
+         });
+         const data2nd = await response2nd.json()
+         if (!response2nd.ok) return alert(JSON.stringify(data2nd.message, null, 2));
+        
+         console.log(data2nd);
+         //displayconversation(data2nd.ListOfConversation) HERE
+        } catch (err2nd) {
+            throw console.error(err2nd)
+        }
     }
 
     function displayconversation(listConversation) {

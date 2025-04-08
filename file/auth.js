@@ -38,9 +38,9 @@ class auth {
     return `the account: ${this.user} does not exist`;
   }
   
-  async getID () {
+  getID () {
     if (this.user === ADMIN_USER) return ADMIN_ID;
-    return accounts[this.user].id
+    return accounts[user].id
   }
 }
 

@@ -1,7 +1,7 @@
 {
     "user": "092568468510658",
     "listconv": [
-        {"name": "testONLY", "href": "/conversation/?conv=testONLY|092568468510658"},
-        {"name": "testONLY2", "href": "/conversation/?conv=testONLY2|092568468510658"}
+        {"name": "testONLY", "href": "/conversation/?conv=testONLY"},
+        {"name": "testONLY2", "href": "/conversation/?conv=testONLY2"}
     ]
 }
