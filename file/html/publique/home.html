@@ -199,6 +199,7 @@
     let accountloaded = null
     let numberOfmessage = 0
     let listOfmessage = []
+    let passwordRegistry = null
 
     SHOWCONVERSATION.style.display = 'none'
 
@@ -218,6 +219,7 @@
         SHOWCONVERSATION.style.display = 'block'
         
         accountloaded = name
+        passwordRegistry = MDP.value
     }
 
     CONNECT.addEventListener('click', async () => {
@@ -244,12 +246,12 @@
     });
 
     async function getListOfConversation (name) {
-        const response = await fetch('/api/listconversation', {
+        const response = await fetch('/api/getconv', {
             method: 'POST',
             headers: {
                         'Content-Type': 'application/json'
                 },
-            body: JSON.stringify({name: name})
+            body: JSON.stringify({name: name, mdp: passwordRegistry})
         });
         const data = await response.json()
         if (!response.ok) return alert(JSON.stringify(data.message, null, 2));
