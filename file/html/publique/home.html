@@ -266,8 +266,7 @@
          const data2nd = await response2nd.json()
          if (!response2nd.ok) return alert(JSON.stringify(data2nd.message, null, 2));
         
-        console.log(Array.from(data2nd.ListOfConversation))
-        //displayconversation(data2nd.ListOfConversation)
+         displayconversation(data2nd.ListOfConversation)
         } catch (err2nd) {
             throw console.error(err2nd)
         }
