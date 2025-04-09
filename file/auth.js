@@ -40,7 +40,7 @@ class auth {
   
   getID () {
     if (this.user === ADMIN_USER) return ADMIN_ID;
-    return accounts[user].id
+    return accounts[this.user].id
   }
 }
 

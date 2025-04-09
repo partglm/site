@@ -254,7 +254,7 @@
         }
     };
 
-    async function getListOfConversation (name, mdp) {
+    const getListOfConversation = (async function (name, mdp) {
         try {
          const response2nd = await fetch('/api/getconv', {
              method: 'POST',
@@ -266,12 +266,12 @@
          const data2nd = await response2nd.json()
          if (!response2nd.ok) return alert(JSON.stringify(data2nd.message, null, 2));
         
-         console.log(data2nd);
-         //displayconversation(data2nd.ListOfConversation) HERE
+        console.log(Array.from(data2nd.ListOfConversation))
+        //displayconversation(data2nd.ListOfConversation)
         } catch (err2nd) {
             throw console.error(err2nd)
         }
-    }
+    })
 
     function displayconversation(listConversation) {
         listConversation.forEach(conversation => {

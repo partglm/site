@@ -2,12 +2,12 @@ const app = require('../app')
 const {log} = require('../logger')
 const conversation = require('../conv')
 
-const routergetConv = app.router
+const routergetConv = app.express.Router()
 
-routergetConv.post('/', (req,res) => {
+routergetConv.post('/', async (req,res) => {
     const {name, mdp} = req.body
     const conversationClass = new conversation(name, mdp)
-    const listOfConv = conversationClass.getconversationForUser()
+    const listOfConv = await conversationClass.getconversationForUser()
     res.json({ ListOfConversation: listOfConv})
 })
 

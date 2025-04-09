@@ -2,7 +2,7 @@ const app = require('../app')
 const {logChat} = require('../logger')
 const socketManager = require('../socket')
 
-const routerChat = app.router
+const routerChat = app.express.Router()
 
 const messageHistory = []
 let counterOfMessage = 0

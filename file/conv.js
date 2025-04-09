@@ -11,8 +11,10 @@ class conversation extends auth{
 
     async getconversationForUser () {
         const id = this.getID(this.user)
-        const contentFile = await fs.promises.readFile(path.join('data','conversation','whoparticipewhere', `${id}.json`))
+        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${id}.json`))
+        const contentFile = JSON.parse(contentFilebrut)
         const listOfId = contentFile.listconv 
+        
         return listOfId
     }
 }

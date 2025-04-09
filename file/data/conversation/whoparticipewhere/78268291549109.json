@@ -1,0 +1,7 @@
+{
+    "user": "78268291549109",
+    "listconv": [
+        {"name": "testONLY", "href": "/conversation/?conv=testONLY"},
+        {"name": "testONLY2", "href": "/conversation/?conv=testONLY2"}
+    ]
+}

@@ -1,7 +1,7 @@
 const {log} = require('../logger')
 const app = require("../app");
 const {auth} = require('../auth');
-const routerAuth = app.router
+const routerAuth = app.express.Router()
 
 new log("post method auth loaded success")
 routerAuth.post('/', (req,res) => {
