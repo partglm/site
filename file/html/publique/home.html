@@ -5,184 +5,207 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> Liberer vous penser </title>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-<style>
-     body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-        color: #333;
-    }
-
-    .container {
-        width: 80%;
-        margin: 30px auto;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        height: 90%;
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
-
-    #showConversation {
-        background-color: #fafafa;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        height: 450px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        font-size: 1.1rem;
-    }
-
-    textarea {
-        width: 100%;
-        padding: 10px;
-        font-size: 1rem;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        margin-bottom: 15px;
-        resize: none;
-    }
-
-    #ms {
-        height: 100px;
-    }
-
-    .button {
-        display: inline-block;
-        background-color: #007bff;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s;
-    }
-
-    .button:hover {
-        background-color: #0056b3;
-    }
-
-    #connect {
-        width: 100%;
-        padding: 12px;
-        background-color: #28a745;
-        color: white;
-        font-size: 1.2rem;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    #connect:hover {
-        background-color: #218838;
-    }
-
-    a {
-        color: #007bff;
-        text-decoration: none;
-        font-size: 0.9rem;
-        margin-right: 10px;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    #tic {
-        margin-top: 20px;
-        font-size: 0.9rem;
-        color: #555;
-        display: block;
-        text-align: center;
-    }
-
-    label {
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    input[type="checkbox"] {
-        margin-right: 5px;
-    }
-
-    #eulalabel {
-        margin-top: 15px;
-        display: inline-block;
-    }
-
-    #pse, #mdp {
-        height: 50px;
-        margin-bottom: 10px;
-        font-size: 1rem;
-    }
-
-    #post-form, #posts {
-        margin-bottom: 20px;
-    }
-
-    #send {
-        width: 100%;
-        padding: 12px;
-        background-color: #28a745;
-        color: white;
-        font-size: 1.2rem;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    #send:hover {
-        background-color: #218838;
-    }
-
-    @media (max-width: 768px) {
-        .container {
-            width: 95%;
-            padding: 10px;
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+        
+        .container {
+            width: 80%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: 90%;
+            margin-top: 20vh; /* Cela déplace la .container vers le bas */
+        }
+
+        .conversation {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75%;
+            background-color: #b1a6a6;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .conversation:hover {
+            background-color: #1465a8;
+        }
+
+
 
         h1 {
-            font-size: 2rem;
+            text-align: center;
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
-        textarea, input[type="checkbox"], #connect {
+        #showConversation {
+            background-color: #fafafa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            height: 450px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            resize: none;
+        }
+
+        #ms {
+            height: 100px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        #connect {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #connect:hover {
+            background-color: #218838;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
             font-size: 0.9rem;
+            margin-right: 10px;
         }
-    }
-</style> 
-</head>   
-<body>  
-   <div class="container">     
-        <h1 id="listConversation">list of conversation</h1>
-        <div  class="Ttrue" id="showConversation"></div>
 
-        <section id="posts"></section>
-            <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
-            <textarea id="mdp" class="Ffalse" placeholder="Entrez votre mot de passe"></textarea>
-            <button class="Ffalse" id="connect" onclick="OnConnectLogIN()">Log In</button>
-            <a id="reg" href="/register">Sign In</a>
-            <a id="tic">Pour créer un ticket, envoyez un mail à goasp145@gmail.com. Vous recevrez une réponse rapidement par mail.</a>
-        </section>
-        
-        <label for="eula" id="eulalabel">
-            <input type="checkbox" id="eula" onclick="eulaBooleaner()">
-            <!-- J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #tic {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #555;
+            display: block;
+            text-align: center;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        #eulalabel {
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        #pse, #mdp {
+            height: 50px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        #post-form, #posts {
+            margin-bottom: 20px;
+        }
+
+        #send {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #send:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            textarea, input[type="checkbox"], #connect {
+                font-size: 0.9rem;
+            }
+        }
+    </style> 
+    </head>   
+    <body>  
+    <div class="container">     
+            <h1 id="listConversation">list of conversation</h1>
+            <div  class="Ttrue" id="showConversation"></div>
+
+            <section id="posts"></section>
+                <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
+                <textarea id="mdp" class="Ffalse" placeholder="Entrez votre mot de passe"></textarea>
+                <button class="Ffalse" id="connect" onclick="OnConnectLogIN()">Log In</button>
+                <a id="reg" href="/register">Sign In</a>
+                <a id="tic">Pour créer un ticket, envoyez un mail à goasp145@gmail.com. Vous recevrez une réponse rapidement par mail.</a>
+            </section>
             
-            //////delete it and add it to /register                                 -->
-        </label>
-    </div>    
+            <label for="eula" id="eulalabel">
+                <input type="checkbox" id="eula" onclick="eulaBooleaner()">
+                <!-- J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
+                
+                //////delete it and add it to /register                                 -->
+            </label>
+        </div>    
 
 <script>
     const socket = io()
@@ -194,6 +217,7 @@
     const TIC = document.getElementById('tic')
     const REG = document.getElementById('reg')
     const SHOWCONVERSATION = document.getElementById("showConversation")
+    const LISTCONVERSATOIN = document.getElementById("listConversation")
     const MS = document.getElementById('ms')
     let EULABOOLEAN = null
     let accountloaded = null
@@ -201,6 +225,7 @@
     let listOfmessage = []
 
     SHOWCONVERSATION.style.display = 'none'
+    LISTCONVERSATOIN.style.display = 'none'
 
     if (localStorage.getItem("user") != null
         && localStorage.getItem("pass") != null)
@@ -208,6 +233,7 @@
         OnConnectLogIN(localStorage.getItem("user"),
             localStorage.getItem("pass"))
     }
+    //function for interaction
 
 
     function eulaBooleaner () {
@@ -224,7 +250,7 @@
         CONNECT.style.display = 'none'
         TIC.style.display = 'block'
         SHOWCONVERSATION.style.display = 'block'
-        
+        LISTCONVERSATOIN.style.display = 'block'
          
         localStorage.setItem("user",name)
         localStorage.setItem("pass",mdp)
@@ -273,11 +299,20 @@
     })
 
     function displayconversation(listConversation) {
+        let colorConversation = '#d3c3c3'
+        let topConversation = 30
+
         listConversation.forEach(conversation => {
             const newConversation = document.createElement('a')
             newConversation.classList.add('conversation')
             newConversation.textContent = conversation.name
             newConversation.href = conversation.href
+            topConversation = topConversation + 7
+            newConversation.style.top = `${topConversation}%`
+            newConversation.style.backgroundColor = colorConversation
+            if (colorConversation == '#d3c3c3') colorConversation = '#b1a6a6';
+            else colorConversation = '#d3c3c3';
+
             SHOWCONVERSATION.appendChild(newConversation)
         });
     }
