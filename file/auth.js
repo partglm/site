@@ -44,4 +44,37 @@ class auth {
   }
 }
 
-module.exports = { auth };
+class signIN extends auth {
+  constructor(user) {
+    super(user)
+    this.user = user
+  }
+
+  createID () {
+    const randomNum = Math.random()
+    const num = Math.floor(randomNum * 100000000000000)
+    const listID = Object.values(accounts).map(account => Number(account.id));
+    if (listID.includes(num)) return this.createID();
+    return num
+  }
+
+  register (mdp, email) {
+    if (accounts[this.user]) return "we are sorry but this username is already use"
+    const ID = this.createID()
+
+    accounts[this.user] = {
+      "mdp": mdp,
+      "id": ID,
+      "email": email
+    }
+
+    fs.writeFile((path.join(__dirname, 'data', 'account.json')), accounts, (err) => {
+      if (err) throw err;
+      new log('The new acounnts has been saved!');
+    })
+    new log(`a new accounts has been created: name: ${this.user}`)
+    return 'good'
+  }
+}
+
+module.exports = { auth, signIN };
