@@ -59,7 +59,7 @@ class signIN extends auth {
   }
 
   register (mdp, email) {
-    if (accounts[this.user]) return "we are sorry but this username is already use"
+    if (accounts[this.user] || this.user == ADMIN_USER) return "we are sorry but this username is already use"
     const ID = this.createID()
 
     accounts[this.user] = {
@@ -68,7 +68,7 @@ class signIN extends auth {
       "email": email
     }
 
-    fs.writeFile((path.join(__dirname, 'data', 'account.json')), accounts, (err) => {
+    fs.writeFile((path.join(__dirname, 'data', 'account.json')), JSON.stringify(accounts), (err) => {
       if (err) throw err;
       new log('The new acounnts has been saved!');
     })

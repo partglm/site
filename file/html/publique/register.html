@@ -36,7 +36,7 @@
             const response = await request.json()
             if (!request.ok) return alert("we are sorry but a error, and it's completely our fault")
             if (response.err) return alert(response.err)
-            if (response.ok) window.location.href = '/'
+            if (response.good) window.location.href = '/'
         })
     </script>
 </body>
