@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors({origin: `localhost:${PORT}`}));
 new auth().load()
 new get()
-const socketManager = new SocketManager(server);
+new SocketManager(server);
 
 if (EULA) {
   server.listen(PORT, '0.0.0.0', () => {

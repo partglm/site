@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+</head>
+<body>
+    <form>
+        <input type="text" placeholder="enter a username" id="Fuser">
+        <input type="text" placeholder="enter a password" id="Fpass">
+        <input type="text" placeholder="confirm your password" id="FconfPass">
+        <input type="text" placeholder="enter a email" id="Femail">
+    </form>
+    <button id="SignIn">Sign In</button>
+
+    <script>
+        const FUSER = document.getElementById('Fuser')
+        const FPASS = document.getElementById('Fpass')
+        const FCONFPASS = document.getElementById('FconfPass')
+        const FEMAIL = document.getElementById('Femail')
+        const SIGNIN = document.getElementById('SignIn')
+
+        SIGNIN.addEventListener('click', async function () {
+            if (FCONFPASS.value != FPASS.value) return alert('the password is not the same')
+                const a = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm 
+            if  (a.test(FEMAIL)) return alert("the entered email is not a email")
+
+            const request = await fetch('/api/register', {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user: FUSER, pass: FPASS, mail: FEMAIL})
+            })
+            const response = await request.json()
+            if (!request.ok) return alert("we are sorry but a error, and it's completely our fault")
+            if (response.err) return alert(response.err)
+        })
+    </script>
+</body>
+</html>
