@@ -24,14 +24,15 @@
         SIGNIN.addEventListener('click', async function () {
             if (FCONFPASS.value != FPASS.value) return alert('the password is not the same')
                 const a = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm 
-            if  (a.test(FEMAIL)) return alert("the entered email is not a email")
+            if (!a.test(FEMAIL.value)) return alert("the entered email is not a email")
+            if (FUSER.value == null || FPASS.value == null || FEMAIL.value == null) return alert("it's can't be empty")
 
             const request = await fetch('/api/register', {
                 method: 'POST',
                 headers: {
                         'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ user: FUSER, pass: FPASS, mail: FEMAIL})
+                body: JSON.stringify({ user: FUSER.value, pass: FPASS.value, mail: FEMAIL.value})
             })
             const response = await request.json()
             if (!request.ok) return alert("we are sorry but a error, and it's completely our fault")
