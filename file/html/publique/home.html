@@ -191,6 +191,8 @@
             <h1 id="listConversation">list of conversation</h1>
             <div  class="Ttrue" id="showConversation"></div>
 
+            <button id="deco" onclick="deco()">déconexion</button>
+
             <section id="posts"></section>
                 <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
                 <textarea id="mdp" class="Ffalse" placeholder="Entrez votre mot de passe"></textarea>
@@ -235,6 +237,13 @@
     }
     //function for interaction
 
+
+
+
+    function deco () {
+        localStorage.clear()
+        window.location.reload()
+    }
 
     function eulaBooleaner () {
         if (EULABOOLEAN) {EULABOOLEAN = false; return}
