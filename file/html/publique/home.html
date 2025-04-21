@@ -200,13 +200,6 @@
                 <a id="reg" href="/register">Sign In</a>
                 <a id="tic">Pour créer un ticket, envoyez un mail à goasp145@gmail.com. Vous recevrez une réponse rapidement par mail.</a>
             </section>
-            
-            <label for="eula" id="eulalabel">
-                <input type="checkbox" id="eula" onclick="eulaBooleaner()">
-                <!-- J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
-                
-                //////delete it and add it to /register                                 -->
-            </label>
         </div>    
 
 <script>
@@ -221,12 +214,13 @@
     const SHOWCONVERSATION = document.getElementById("showConversation")
     const LISTCONVERSATOIN = document.getElementById("listConversation")
     const MS = document.getElementById('ms')
-    let EULABOOLEAN = null
+    const DECO = document.getElementById('deco')
     let accountloaded = null
     let numberOfmessage = 0
     let listOfmessage = []
 
     SHOWCONVERSATION.style.display = 'none'
+    DECO.style.display = 'none'
     LISTCONVERSATOIN.style.display = 'none'
 
     if (localStorage.getItem("user") != null
@@ -245,11 +239,6 @@
         window.location.reload()
     }
 
-    function eulaBooleaner () {
-        if (EULABOOLEAN) {EULABOOLEAN = false; return}
-        EULABOOLEAN = true
-    }
-
     function authUserOK (name,mdp) {
         EULALABEL.style.display = 'none'
         POSTS.style.display = 'none'
@@ -258,6 +247,7 @@
         REG.style.display = 'none'
         CONNECT.style.display = 'none'
         TIC.style.display = 'block'
+        DECO.style.display = 'block'
         SHOWCONVERSATION.style.display = 'block'
         LISTCONVERSATOIN.style.display = 'block'
          
@@ -267,7 +257,6 @@
     }
 
     async function OnConnectLogIN (name=PSE.value, mdp=MDP.value) {
-        if (EULABOOLEAN === false) {return alert("veuillez accepter les conditions générales d'utilisation")}
         try {
             const response = await fetch('/api/auth', {
                 method: 'POST',

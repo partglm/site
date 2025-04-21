@@ -11,6 +11,11 @@
         <input type="text" placeholder="enter a password" id="Fpass">
         <input type="text" placeholder="confirm your password" id="FconfPass">
         <input type="text" placeholder="enter a email" id="Femail">
+        
+        <label for="eula" id="eulalabel">
+            <input type="checkbox" id="eula" onclick="eulaBooleaner()">
+            J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
+        </label>
     </form>
     <button id="SignIn">Sign In</button>
 
@@ -21,7 +26,13 @@
         const FEMAIL = document.getElementById('Femail')
         const SIGNIN = document.getElementById('SignIn')
 
+        function eulaBooleaner () {
+            if (EULABOOLEAN) {EULABOOLEAN = false; return}
+            EULABOOLEAN = true
+        }
+
         SIGNIN.addEventListener('click', async function () {
+            if (EULABOOLEAN === false) {return alert("veuillez accepter les conditions générales d'utilisation")}
             if (FCONFPASS.value != FPASS.value) return alert('the password is not the same')
                 const a = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm 
             if (!a.test(FEMAIL.value)) return alert("the entered email is not a email")

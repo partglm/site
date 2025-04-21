@@ -8,7 +8,7 @@ const {get} = require('./file/routes')
 const SocketManager = require('./file/socket')
 
 app.use(express.json());
-app.use(cors({origin: `localhost:${PORT}`}));
+app.use(cors({origin: `localhost:${PORT}`, methods: 'POST'}));
 new auth().load()
 new get()
 new SocketManager(server);
