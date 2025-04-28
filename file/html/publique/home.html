@@ -8,13 +8,14 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #1a4fc2 0%, #e91e63 100%);
             margin: 0;
             padding: 0;
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
         }
         
         .container {
@@ -22,36 +23,63 @@
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            height: 90%;
-            margin-top: 20vh; /* Cela déplace la .container vers le bas */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
         }
 
-        .conversation {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 75%;
-            background-color: #b1a6a6;
+        .conversation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .conversation-item {
+            padding: 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
             color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-
-        .conversation:hover {
-            background-color: #1465a8;
+        /* Alternating colors for conversation items */
+        .conversation-item:nth-child(odd) {
+            background: linear-gradient(to right, rgba(26, 79, 194, 0.15), rgba(26, 79, 194, 0.05));
+            border-left: 4px solid #1a4fc2;
         }
 
+        .conversation-item:nth-child(even) {
+            background: linear-gradient(to right, rgba(233, 30, 99, 0.15), rgba(233, 30, 99, 0.05));
+            border-left: 4px solid #e91e63;
+        }
 
+        .conversation-item:hover {
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid transparent;
+        }
+
+        .conversation-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
 
         h1 {
             text-align: center;
-            color: #333;
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             font-size: 2.5rem;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+            border-image: linear-gradient(to right, #1a4fc2, #e91e63) 1;
         }
 
         #showConversation {
@@ -59,7 +87,7 @@
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
-            height: 450px;
+            max-height: 450px;
             overflow-y: auto;
             border: 1px solid #ddd;
             font-size: 1.1rem;
@@ -73,6 +101,7 @@
             border: 1px solid #ccc;
             margin-bottom: 15px;
             resize: none;
+            box-sizing: border-box; /* This ensures padding is included in width */
         }
 
         #ms {
@@ -81,45 +110,67 @@
 
         .button {
             display: inline-block;
-            background-color: #007bff;
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background-color 0.3s;
+            transition: background 0.3s;
         }
 
         .button:hover {
-            background-color: #0056b3;
+            background: linear-gradient(to right, #0d3aa8, #d01a56);
         }
 
         #connect {
             width: 100%;
             padding: 12px;
-            background-color: #28a745;
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
             color: white;
             font-size: 1.2rem;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            box-sizing: border-box; /* This ensures padding is included in width */
         }
 
         #connect:hover {
-            background-color: #218838;
+            background: linear-gradient(to right, #0d3aa8, #d01a56);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #deco {
+            background: linear-gradient(to right, #e91e63, #1a4fc2);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        #deco:hover {
+            background: linear-gradient(to right, #d01a56, #0d3aa8);
+            transform: translateY(-2px);
         }
 
         a {
-            color: #007bff;
+            color: #1a4fc2;
             text-decoration: none;
             font-size: 0.9rem;
             margin-right: 10px;
+            transition: color 0.3s;
         }
 
         a:hover {
-            text-decoration: underline;
+            color: #e91e63;
+            text-decoration: none;
         }
 
         #tic {
@@ -144,36 +195,131 @@
             display: inline-block;
         }
 
+        /* Login form styling with blue-red gradient theme */
+        .login-form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box; /* This ensures padding is included in width */
+        }
+
+        .login-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-header h2 {
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
         #pse, #mdp {
             height: 50px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             font-size: 1rem;
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: all 0.3s;
+            box-sizing: border-box; /* This ensures padding is included in width */
+        }
+
+        #pse:focus, #mdp:focus {
+            border-color: transparent;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 79, 194, 0.3), 0 0 0 1px rgba(233, 30, 99, 0.3);
         }
 
         #post-form, #posts {
             margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box; /* This ensures padding is included in width */
         }
 
         #send {
             width: 100%;
             padding: 12px;
-            background-color: #28a745;
+            background: linear-gradient(to right, #1a4fc2, #e91e63);
             color: white;
             font-size: 1.2rem;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            box-sizing: border-box; /* This ensures padding is included in width */
         }
 
         #send:hover {
-            background-color: #218838;
+            background: linear-gradient(to right, #0d3aa8, #d01a56);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .register-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, rgba(26, 79, 194, 0.3), rgba(233, 30, 99, 0.3));
+        }
+
+        .register-link span {
+            position: relative;
+            background: white;
+            padding: 0 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .register-link a {
+            display: block;
+            margin-top: 15px;
+            color: #1a4fc2;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #e91e63;
         }
 
         @media (max-width: 768px) {
             .container {
                 width: 95%;
-                padding: 10px;
+                padding: 15px;
             }
 
             h1 {
@@ -183,21 +329,34 @@
             textarea, input[type="checkbox"], #connect {
                 font-size: 0.9rem;
             }
+            
+            .login-form {
+                padding: 20px;
+            }
         }
     </style> 
     </head>   
     <body>  
     <div class="container">     
-            <h1 id="listConversation">list of conversation</h1>
-            <div  class="Ttrue" id="showConversation"></div>
+            <h1 id="listConversation">Liste des conversations</h1>
+            <div id="showConversation" class="Ttrue"></div>
 
-            <button id="deco" onclick="deco()">déconexion</button>
+            <button id="deco" onclick="deco()">Déconnexion</button>
 
-            <section id="posts"></section>
-                <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
-                <textarea id="mdp" class="Ffalse" placeholder="Entrez votre mot de passe"></textarea>
-                <button class="Ffalse" id="connect" onclick="OnConnectLogIN()">Log In</button>
-                <a id="reg" href="/register">Sign In</a>
+            <section id="posts">
+                <div class="login-form Ffalse">
+                    <div class="login-header">
+                        <h2>Connexion</h2>
+                        <p>Entrez vos identifiants pour accéder à vos conversations</p>
+                    </div>
+                    <textarea id="pse" class="Ffalse" placeholder="Entrez votre pseudo"></textarea>
+                    <textarea id="mdp" class="Ffalse" placeholder="Entrez votre mot de passe"></textarea>
+                    <button class="Ffalse" id="connect" onclick="OnConnectLogIN()">Se connecter</button>
+                    <div class="register-link">
+                        <span>Nouveau ?</span>
+                        <a id="reg" href="/register">Créer un compte</a>
+                    </div>
+                </div>
                 <a id="tic">Pour créer un ticket, envoyez un mail à goasp145@gmail.com. Vous recevrez une réponse rapidement par mail.</a>
             </section>
         </div>    
@@ -231,16 +390,12 @@
     }
     //function for interaction
 
-
-
-
     function deco () {
         localStorage.clear()
         window.location.reload()
     }
 
     function authUserOK (name,mdp) {
-        EULALABEL.style.display = 'none'
         POSTS.style.display = 'none'
         PSE.style.display = 'none'
         MDP.style.display = 'none'
@@ -297,23 +452,50 @@
     })
 
     function displayconversation(listConversation) {
-        let colorConversation = '#d3c3c3'
-        let topConversation = 30
-
-        listConversation.forEach(conversation => {
-            const newConversation = document.createElement('a')
-            newConversation.classList.add('conversation')
-            newConversation.textContent = conversation.name
-            newConversation.href = conversation.href
-            topConversation = topConversation + 7
-            newConversation.style.top = `${topConversation}%`
-            newConversation.style.backgroundColor = colorConversation
-            if (colorConversation == '#d3c3c3') colorConversation = '#b1a6a6';
-            else colorConversation = '#d3c3c3';
-
-            SHOWCONVERSATION.appendChild(newConversation)
+        // Clear previous conversations
+        SHOWCONVERSATION.innerHTML = '';
+        
+        // Create a container for the conversation list
+        const conversationList = document.createElement('div');
+        conversationList.className = 'conversation-list';
+        
+        // Add each conversation to the list
+        listConversation.forEach((conversation, index) => {
+            const conversationItem = document.createElement('a');
+            conversationItem.className = 'conversation-item';
+            conversationItem.href = conversation.href;
+            
+            // Add chat icon
+            const icon = document.createElement('span');
+            icon.className = 'conversation-icon';
+            icon.innerHTML = '💬';
+            conversationItem.appendChild(icon);
+            
+            // Add conversation name
+            const nameSpan = document.createElement('span');
+            nameSpan.textContent = conversation.name;
+            conversationItem.appendChild(nameSpan);
+            
+            // Add animation delay for staggered effect
+            conversationItem.style.animationDelay = `${index * 0.1}s`;
+            
+            // Add to the list
+            conversationList.appendChild(conversationItem);
         });
+        
+        // If no conversations, show a message
+        if (listConversation.length === 0) {
+            const noConversations = document.createElement('div');
+            noConversations.textContent = 'Aucune conversation disponible';
+            noConversations.style.textAlign = 'center';
+            noConversations.style.padding = '20px';
+            noConversations.style.color = '#666';
+            conversationList.appendChild(noConversations);
+        }
+        
+        // Add the list to the container
+        SHOWCONVERSATION.appendChild(conversationList);
     }
-
 </script>
 </body>
+</html>

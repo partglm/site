@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>conversation</title>
+</head>
+<body>
+    <script>
+        async function start () {
+            const parameters = new URLSearchParams('conv')
+            const result = await fetch('/getContentConv', {
+                method: 'POST',
+                headers: {
+                         'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({param: parameters})
+            })
+            const data = result.json()
+            displayconv(data)
+        }
+        start()
+    </script>
+</body>
+</html>
