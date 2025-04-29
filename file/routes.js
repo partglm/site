@@ -18,6 +18,10 @@ class get {
       logip(req)
     })
 
+    app2.get('/conversation', (req,res) => {
+      res.sendFile(path.join(prepath, 'conversation.html'))
+    })
+
     app2.use('/api', router)
 
     app2.use((req, res) => {

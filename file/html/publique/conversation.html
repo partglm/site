@@ -8,13 +8,13 @@
 <body>
     <script>
         async function start () {
-            const parameters = new URLSearchParams('conv')
+            const parameters = new URLSearchParams(window.location.search)
             const result = await fetch('/getContentConv', {
                 method: 'POST',
                 headers: {
                          'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({param: parameters})
+                body: JSON.stringify({param: parameters.get('conv')})
             })
             const data = result.json()
             displayconv(data)
