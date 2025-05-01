@@ -1,12 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>conversation</title>
+    <title>Affichage de Conversation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .conversation {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 70%;
+            position: relative;
+        }
+        .message-content {
+            word-wrap: break-word;
+        }
+        .message-time {
+            font-size: 0.7em;
+            color: #777;
+            margin-top: 5px;
+            display: block;
+        }
+        .message.sent {
+            background-color: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        .message.received {
+            background-color: #f1f1f1;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        .message-sender {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
+    <h1 id="aaaNAME"></h1>
+    
+    <div id="conversation-container" class="conversation">
+        <!-- La conversation sera affichée ici -->
+    </div>
+
     <script>
+        // Fonction pour afficher la conversation
+        function displayconv(messages) {
+            const container = document.getElementById('conversation-container');
+            container.innerHTML = ''; // Vider le conteneur
+            
+            // Parcourir tous les messages
+            messages.forEach(message => {
+                // Créer un élément pour le message
+                const messageElement = document.createElement('div');
+                
+                // Déterminer si le message est envoyé ou reçu (pour cet exemple, on considère "partglm" comme l'autre participant)
+                const isReceived = message.by === 'partglm';
+                messageElement.className = `message ${isReceived ? 'received' : 'sent'}`;
+                
+                // Créer le contenu du message
+                let messageHTML = '';
+                
+                // Ajouter le nom de l'expéditeur
+                messageHTML += `<div class="message-sender">${message.by}</div>`;
+                
+                // Ajouter le contenu du message
+                messageHTML += `<div class="message-content">${message.msg}</div>`;
+                
+                // Ajouter l'horodatage
+                messageHTML += `<span class="message-time">${message.when}</span>`;
+                
+                // Définir le HTML du message
+                messageElement.innerHTML = messageHTML;
+                
+                // Ajouter le message au conteneur
+                container.appendChild(messageElement);
+            });
+
+            const NAME = document.getElementById('aaaNAME')
+            NAME.textContent = new URLSearchParams(window.location.search).get('conv')
+        }
+
         async function start () {
             const parameters = new URLSearchParams(window.location.search)
             const result = await fetch('/api/getContentConv', {
@@ -16,9 +110,9 @@
                 },
                 body: JSON.stringify({param: parameters.get('conv')})
             })
-            const data = result.json()
-            console.log(data)
-            displayconv(data)
+            const data = await result.json()
+            
+            displayconv(data.content)
         }
         start()
     </script>
