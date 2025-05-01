@@ -1,4 +1,4 @@
 {
-"testUser": {"mdp": "testMDP", "id": 78268291549109},
-"testUser2": {"mdp": "testMDP", "id": 45308993941823}
+"testUser": {"mdp": "testMDP"},
+"testUser2": {"mdp": "testMDP"}
 }

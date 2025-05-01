@@ -1,6 +1,7 @@
 const fs = require('fs')
 const {auth} = require('./auth')
 const path = require('path')
+const { log, logChat } = require('./logger')
 
 class conversation extends auth{
     constructor(user, mdp) {
@@ -10,8 +11,7 @@ class conversation extends auth{
     }
 
     async getconversationForUser () {
-        const id = this.getID(this.user)
-        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${id}.json`))
+        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${this.user}.json`))
         const contentFile = JSON.parse(contentFilebrut)
         const listOfId = contentFile.listconv 
         
@@ -19,10 +19,11 @@ class conversation extends auth{
     }
 
     async getconversationContentWithNameOfIt (nameOFtheConv) {
+        new log("loading content for " + nameOFtheConv)
         const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`))
         const contentFile = JSON.parse(contentFilebrut)
 
-        
+        return contentFile.content
     }
 }
 

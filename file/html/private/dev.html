@@ -15,8 +15,8 @@
     }
     .containerdev {
       display: flex;
-      flex: 1;
       flex-direction: column;
+      flex: 1;
     }
     .content-containerdev {
       flex: 1;
@@ -65,21 +65,11 @@
       border-bottom: 1px solid #3e4451;
       font-size: 12px;
     }
-    .main-logdev {
-      color: #98c379;
-    }
-    .external-logdev {
-      color: #61afef;
-    }
-    .error-logdev {
-      color: #e06c75;
-    }
-    .warn-logdev {
-      color: #e5c07b;
-    }
-    .info-logdev {
-      color: #56b6c2;
-    }
+    .main-logdev { color: #98c379; }
+    .external-logdev { color: #61afef; }
+    .error-logdev { color: #e06c75; }
+    .warn-logdev { color: #e5c07b; }
+    .info-logdev { color: #56b6c2; }
     h1, h2 {
       margin-top: 0;
       margin-bottom: 10px;
@@ -146,6 +136,30 @@
     const urlInputdev = document.getElementById('urlInputdev');
     const statusElementdev = document.getElementById('statusdev');
 
+    // Capture des logs
+    const originalLog = console.log;
+    console.log = function (...args) {
+      originalLog.apply(console, args);
+      addLogdev(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'log');
+    };
+
+    const originalWarn = console.warn;
+    console.warn = function (...args) {
+      originalWarn.apply(console, args);
+      addLogdev(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'warn');
+    };
+
+    const originalError = console.error;
+    console.error = function (...args) {
+      originalError.apply(console, args);
+      addLogdev(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'error');
+    };
+
+    // Capture des erreurs globales
+    window.onerror = function (message, source, lineno, colno, error) {
+      addLogdev(`[Erreur globale] ${message} (${source}:${lineno}:${colno})`, 'error');
+    };
+
     function addLogdev(message, source) {
       const logElement = document.createElement('div');
       logElement.classList.add('logdev');
@@ -183,21 +197,24 @@
     }
 
     function executeScriptsdev(html) {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      const scripts = tempDiv.querySelectorAll('script');
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+  const scripts = tempDiv.querySelectorAll('script');
 
-      scripts.forEach(script => {
-        const newScript = document.createElement('script');
-        if (script.src) {
-          newScript.src = script.src;
-          newScript.async = false;
-        } else {
-          newScript.textContent = script.textContent;
-        }
-        document.body.appendChild(newScript);
-      });
+  scripts.forEach(script => {
+    const newScript = document.createElement('script');
+
+    if (script.src) {
+      newScript.src = script.src;
+      newScript.async = false;
+    } else {
+      newScript.textContent = script.textContent;
     }
+
+    document.body.appendChild(newScript);
+  });
+}
+
 
     function loadPagedev() {
       const url = urlInputdev.value;
@@ -223,30 +240,6 @@
           statusElementdev.textContent = `Erreur : ${err.message}`;
         });
     }
-
-(function() {
-      const appendLog = function (message, type) {
-        addLogdev(message, type);
-      };
-
-      const originalLog = console.log;
-      console.log = function (...args) {
-        originalLog.apply(console, args);
-        appendLog(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'log');
-      };
-
-      const originalWarn = console.warn;
-      console.warn = function (...args) {
-        originalWarn.apply(console, args);
-        appendLog(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'warn');
-      };
-
-      const originalError = console.error;
-      console.error = function (...args) {
-        originalError.apply(console, args);
-        appendLog(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'error');
-      };
-    })();
   </script>
 </body>
 </html>

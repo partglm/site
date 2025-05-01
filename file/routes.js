@@ -32,7 +32,7 @@ class get {
 
     app2.use((req, res) => {
       res.status(404).sendFile('img/featured_404.jpg', { root: __dirname });
-      new log('error 404 detected');
+      new log('error 404 detected for ' + req.url);
     })
     
 }}

@@ -37,11 +37,6 @@ class auth {
     }
     return `the account: ${this.user} does not exist`;
   }
-  
-  getID () {
-    if (this.user === ADMIN_USER) return ADMIN_ID;
-    return accounts[this.user].id
-  }
 }
 
 class signIN extends auth {
@@ -50,21 +45,11 @@ class signIN extends auth {
     this.user = user
   }
 
-  createID () {
-    const randomNum = Math.random()
-    const num = Math.floor(randomNum * 100000000000000)
-    const listID = Object.values(accounts).map(account => Number(account.id));
-    if (listID.includes(num)) return this.createID();
-    return num
-  }
-
   register (mdp, email) {
     if (accounts[this.user] || this.user == ADMIN_USER) return "we are sorry but this username is already use"
-    const ID = this.createID()
 
     accounts[this.user] = {
       "mdp": mdp,
-      "id": ID,
       "email": email
     }
 
