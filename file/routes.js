@@ -1,4 +1,5 @@
 const path = require('path');
+const {DEV_TOOLS}= require('./config')
 const app = require('./app')
 const router = require('./post')
 const { log, logip } = require('./logger');
@@ -20,6 +21,11 @@ class get {
 
     app2.get('/conversation', (req,res) => {
       res.sendFile(path.join(prepath, 'conversation.html'))
+    })
+
+    app2.get('/terminal', (req,res) => {
+      if (!DEV_TOOLS) return
+      res.sendFile(path.join(__dirname, 'html','private','dev.html'))
     })
 
     app2.use('/api', router)

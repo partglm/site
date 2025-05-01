@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capture Console - AJAX</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .containerdev {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+    }
+    .content-containerdev {
+      flex: 1;
+      border: 1px solid #ccc;
+      min-height: 500px;
+      padding: 15px;
+      overflow: auto;
+      background-color: #f9f9f9;
+      margin-bottom: 10px;
+    }
+    .url-inputdev {
+      display: flex;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    .url-inputdev input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .url-inputdev button {
+      padding: 8px 15px;
+      background-color: #4a76a8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .url-inputdev button:hover {
+      background-color: #3a5a78;
+    }
+    .consoledev {
+      background-color: #282c34;
+      color: #abb2bf;
+      border-radius: 5px;
+      padding: 10px;
+      font-family: monospace;
+      overflow-y: auto;
+      margin-top: 10px;
+      height: 150px;
+    }
+    .logdev {
+      margin: 3px 0;
+      padding: 2px 5px;
+      border-bottom: 1px solid #3e4451;
+      font-size: 12px;
+    }
+    .main-logdev {
+      color: #98c379;
+    }
+    .external-logdev {
+      color: #61afef;
+    }
+    .error-logdev {
+      color: #e06c75;
+    }
+    .warn-logdev {
+      color: #e5c07b;
+    }
+    .info-logdev {
+      color: #56b6c2;
+    }
+    h1, h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .clear-buttondev {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+    .statusdev {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .statusdev.successdev {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .statusdev.errordev {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .statusdev.loadingdev {
+      background-color: #e2f3f8;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="containerdev" id="pagedev">
+    <h1>Capture Console - Chargement AJAX</h1>
+
+    <div class="url-inputdev">
+      <input type="text" id="urlInputdev" placeholder="Entrez une URL ici" />
+      <button onclick="loadPagedev()">Charger</button>
+    </div>
+
+    <div id="statusdev" class="statusdev" style="display: none;"></div>
+
+    <div id="contentContainerdev" class="content-containerdev">
+      <p>Entrez une URL et cliquez sur "Charger" pour afficher le contenu ici.</p>
+    </div>
+
+    <div>
+      <button class="clear-buttondev" onclick="clearConsoledev()">Effacer la console</button>
+      <div class="consoledev" id="customConsoledev">
+        <div class="logdev main-logdev">Console prête à capturer les logs</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const consoleElementdev = document.getElementById('customConsoledev');
+    const contentContainerdev = document.getElementById('contentContainerdev');
+    const urlInputdev = document.getElementById('urlInputdev');
+    const statusElementdev = document.getElementById('statusdev');
+
+    function addLogdev(message, source) {
+      const logElement = document.createElement('div');
+      logElement.classList.add('logdev');
+      switch (source) {
+        case 'main':
+          logElement.classList.add('main-logdev');
+          logElement.textContent = `[Page] ${message}`;
+          break;
+        case 'external':
+          logElement.classList.add('external-logdev');
+          logElement.textContent = `[Externe] ${message}`;
+          break;
+        case 'error':
+          logElement.classList.add('error-logdev');
+          logElement.textContent = `[Erreur] ${message}`;
+          break;
+        case 'warn':
+          logElement.classList.add('warn-logdev');
+          logElement.textContent = `[Avertissement] ${message}`;
+          break;
+        case 'info':
+          logElement.classList.add('info-logdev');
+          logElement.textContent = `[Info] ${message}`;
+          break;
+        default:
+          logElement.textContent = message;
+      }
+      consoleElementdev.appendChild(logElement);
+      consoleElementdev.scrollTop = consoleElementdev.scrollHeight;
+    }
+
+    function clearConsoledev() {
+      consoleElementdev.innerHTML = '';
+      addLogdev('Console effacée.', 'main');
+    }
+
+    function executeScriptsdev(html) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      const scripts = tempDiv.querySelectorAll('script');
+
+      scripts.forEach(script => {
+        const newScript = document.createElement('script');
+        if (script.src) {
+          newScript.src = script.src;
+          newScript.async = false;
+        } else {
+          newScript.textContent = script.textContent;
+        }
+        document.body.appendChild(newScript);
+      });
+    }
+
+    function loadPagedev() {
+      const url = urlInputdev.value;
+      if (!url) return;
+
+      statusElementdev.className = 'statusdev loadingdev';
+      statusElementdev.textContent = "Chargement...";
+      statusElementdev.style.display = 'block';
+
+      fetch(url)
+        .then(res => {
+          if (!res.ok) throw new Error("Erreur réseau");
+          return res.text();
+        })
+        .then(html => {
+          contentContainerdev.innerHTML = html;
+          executeScriptsdev(html);
+          statusElementdev.className = 'statusdev successdev';
+          statusElementdev.textContent = "Chargé avec succès.";
+        })
+        .catch(err => {
+          statusElementdev.className = 'statusdev errordev';
+          statusElementdev.textContent = `Erreur : ${err.message}`;
+        });
+    }
+
+(function() {
+      const appendLog = function (message, type) {
+        addLogdev(message, type);
+      };
+
+      const originalLog = console.log;
+      console.log = function (...args) {
+        originalLog.apply(console, args);
+        appendLog(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'log');
+      };
+
+      const originalWarn = console.warn;
+      console.warn = function (...args) {
+        originalWarn.apply(console, args);
+        appendLog(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'warn');
+      };
+
+      const originalError = console.error;
+      console.error = function (...args) {
+        originalError.apply(console, args);
+        appendLog(args.map(arg => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' '), 'error');
+      };
+    })();
+  </script>
+</body>
+</html>

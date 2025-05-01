@@ -17,6 +17,13 @@ class conversation extends auth{
         
         return listOfId
     }
+
+    async getconversationContentWithNameOfIt (nameOFtheConv) {
+        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`))
+        const contentFile = JSON.parse(contentFilebrut)
+
+        
+    }
 }
 
 module.exports = conversation
