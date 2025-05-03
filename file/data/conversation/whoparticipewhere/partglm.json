@@ -1,7 +1,7 @@
 {
     "user": "092568468510654984160",
     "listconv": [
-        {"name": "testONLY", "href": "/conversation/?conv=testONLY"},
-        {"name": "testONLY2", "href": "/conversation/?conv=testONLY2"}
+        {"name": "testONLY", "href": "/conversation/?conv=testONLY&user=partglm"},
+        {"name": "testONLY2", "href": "/conversation/?conv=testONLY2&user=partglm"}
     ]
 }

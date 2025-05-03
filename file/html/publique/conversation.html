@@ -58,7 +58,10 @@
 </head>
 <body>
     <h1 id="aaaNAME"></h1>
+    <input type="text" id="textIN">
+    <button id="btnIN"></button>
     
+
     <div id="conversation-container" class="conversation">
         <!-- La conversation sera affichée ici -->
     </div>
@@ -115,6 +118,35 @@
             displayconv(data.content)
         }
         start()
+
+        const socket = io();
+        socket.on('isThisYou?', async ({message, id}) => {
+            const parameters = new URLSearchParams(window.location.search)
+            if (message != parameters.get('conv')) return
+
+            const result = await fetch('/api/getMessage', {
+                method: 'POST',
+                headers: {
+                         'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({conv: message})
+            })
+            const data = await result.json()
+            
+            appendATconv(data.content)
+        })
+        
+        document.getElementById('btnIN').addEventListener('click', async () => {
+            const parameters = new URLSearchParams(window.location.search)
+            const result = await fetch('/api/sendMessage', {
+                method: 'POST',
+                headers: {
+                         'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ msg: document.getElementById('textIN').value, who: parameters.get('user'), conv: parameters.get('conv')})
+            })
+        })
     </script>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.esm.min.js"></script>
 </body>
 </html>
