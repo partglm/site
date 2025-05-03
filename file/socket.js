@@ -18,10 +18,12 @@ class SocketManager {
                 new log(`Client déconnecté: ${socket.id}`);
             });
         });
+
+        
     }
 
     // Méthode personnalisée pour envoyer un message à tous les clients
-    static sendMessage(message, id) {
+    toALL(message, id) {
         this.io.emit("isThisYou?", {message, id});
     }
 }

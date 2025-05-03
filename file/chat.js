@@ -1,8 +1,8 @@
 const fs = require('fs')
-const SocketManager = require('./socket')
 const path = require('path')
+const a = require('./data/conversation/content/testONLY.json')
 
-class chat extends SocketManager {  
+class chat {  
     constructor(message, who, conversation) {
         this.who = who
         this.message = message
@@ -17,12 +17,12 @@ class chat extends SocketManager {
     }
 
     async MAJofJSON () {
-        const content = await fs.promises.readFile(path.join('data', 'conversation', 'content', this.conversation))
+        const content = await fs.promises.readFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`))
         const JSONfile = JSON.parse(content)
 
         JSONfile.content.push({msg: this.message, when: this.time, by: this.who})
 
-        await fs.promises.writeFile(path.join('data', 'conversation', 'content', this.conversation), JSONfile, )
+        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1), )
     }
 }
 

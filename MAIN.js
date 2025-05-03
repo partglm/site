@@ -5,13 +5,11 @@ const {log} = require('./file/logger')
 const {auth} = require('./file/auth')
 const {app, server} = require('./file/app')
 const {get} = require('./file/routes')
-const SocketManager = require('./file/socket')
 
 app.use(express.json());
 app.use(cors({origin: `localhost:${PORT}`, methods: 'POST'}));
 new auth().load()
 new get()
-new SocketManager(server);
 
 if (EULA) {
   server.listen(PORT, '0.0.0.0', () => {
