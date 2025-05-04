@@ -53,10 +53,14 @@ class signIN extends auth {
       "email": email
     }
 
-    fs.writeFile((path.join(__dirname, 'data', 'account.json')), JSON.stringify(accounts), (err) => {
+    fs.writeFile((path.join(__dirname, 'data', 'account.json')), JSON.stringify(accounts, null, 2), (err) => {
       if (err) throw err;
       new log('The new acounnts has been saved!');
     })
+    fs.writeFile((path.join(__dirname, 'data', 'conversation', 'whoparticipewhere', `${this.user}.json`)), JSON.stringify({"listconv": []}, null, 2), (err) => {
+      if (err) throw err;
+    })
+
     new log(`a new accounts has been created: name: ${this.user}`)
     return 'good'
   }

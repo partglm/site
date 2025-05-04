@@ -8,6 +8,7 @@ registerRouter.post('/', (req, res) => {
     const {user, pass , mail} = req.body
     const registering = new signIN(user).register(pass,mail)
     if (registering == 'good') return res.json({good: 'good'})
+    new log("error on registering a new accounts:" + registering)
     res.json({err: registering})
 })
 

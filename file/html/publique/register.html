@@ -25,7 +25,8 @@
         const FCONFPASS = document.getElementById('FconfPass')
         const FEMAIL = document.getElementById('Femail')
         const SIGNIN = document.getElementById('SignIn')
-
+        let EULABOOLEAN = false
+        
         function eulaBooleaner () {
             if (EULABOOLEAN) {EULABOOLEAN = false; return}
             EULABOOLEAN = true
@@ -47,7 +48,7 @@
             })
             const response = await request.json()
             if (!request.ok) return alert("we are sorry but a error, and it's completely our fault")
-            if (response.err) return alert(response.err)
+            if (response.err) return alert(JSON.stringify(response.err))
             if (response.good) window.location.href = '/'
         })
     </script>
