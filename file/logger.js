@@ -24,6 +24,8 @@ class logTable {
   constructor(input) {
     this.input = input
 
+    
+    if (process.argv.includes('--no-log'))  return
     console.table(this.input)
     return this.input
   }
@@ -32,6 +34,8 @@ class logTable {
 
 
 function logEvent(message) {
+  if (process.argv.includes('--no-log'))  return
+
   const timestamp = new Date().toLocaleString();
   const logEntry = `[${timestamp}]: ${message}`;
   fs.appendFileSync(path.join(__dirname, 'data/data.txt'), `${logEntry}\n`, 'utf8');

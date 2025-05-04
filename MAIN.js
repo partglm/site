@@ -11,7 +11,8 @@ app.use(cors({origin: `localhost:${PORT}`, methods: 'POST'}));
 new auth().load()
 new get()
 
-if (EULA) {
+if (process.argv.includes('--no-start')) return
+if(EULA) {
   server.listen(PORT, '0.0.0.0', () => {
   new log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
   });

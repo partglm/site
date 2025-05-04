@@ -15,6 +15,7 @@
   "version": "1.0.0",
   "main": "MAIN.js",
   "scripts": {
+    "test": "node MAIN.js --no-start --no-log",
     "start": "node MAIN.js"
   },
   "author": "",
