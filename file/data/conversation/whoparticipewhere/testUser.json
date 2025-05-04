@@ -1,5 +1,4 @@
 {
-    "user": "78268291549109",
     "listconv": [
         {"name": "testONLY", "href": "/conversation/?conv=testONLY&user=testUser"},
         {"name": "testONLY2", "href": "/conversation/?conv=testONLY2&user=testUser"}
