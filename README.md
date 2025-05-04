@@ -1,1 +1,2 @@
-HI 
+HELLO, everyone this repository is a social network. my goal is not to make mone but make something that work why learning ExpressJS 
+if you want to try this you can clone it and run it with: npm start
