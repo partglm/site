@@ -159,6 +159,23 @@
             transform: translateY(-2px);
         }
 
+        #create {
+            background: linear-gradient(to right, #e91e63, #1a4fc2);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        #create:hover {
+            background: linear-gradient(to right, #d01a56, #0d3aa8);
+            transform: translateY(-2px);
+        }
+
         a {
             color: #1a4fc2;
             text-decoration: none;
@@ -341,6 +358,7 @@
             <div id="showConversation" class="Ttrue"></div>
 
             <button id="deco" onclick="deco()">Déconnexion</button>
+            <button id="create" onclick="createCONV()">create a conversation</button>
 
             <section id="posts">
                 <div class="login-form Ffalse">
@@ -430,6 +448,16 @@
             throw console.error('Erreur réseau ou serveur :', error);
         }
     };
+
+    async function createCONV() {
+        fetch('/api/createCONV', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: name, mdp: mdp })
+        });
+    }
 
     const getListOfConversation = (async function (name, mdp) {
         try {
