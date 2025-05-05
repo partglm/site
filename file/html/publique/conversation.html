@@ -7,146 +7,250 @@
     <title>Affichage de Conversation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #36393f;
+            color: #dcddde;
         }
+        
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            padding: 15px 0;
+            margin: 0;
+            background-color: #2f3136;
+            border-bottom: 1px solid #202225;
+        }
+        
+        .conversation-wrapper {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
         .conversation {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            overflow-y: auto;
             padding: 20px;
-            margin-top: 20px;
+            display: flex;
+            flex-direction: column-reverse; /* Messages start from bottom */
         }
+        
         .message {
             margin-bottom: 15px;
             padding: 10px 15px;
-            border-radius: 18px;
-            max-width: 70%;
+            border-radius: 4px;
+            max-width: 85%;
             position: relative;
+            margin-right: auto; /* Tous les messages à gauche */
         }
+        
         .message-content {
             word-wrap: break-word;
+            color: #ffffff;
         }
+        
         .message-time {
             font-size: 0.7em;
-            color: #777;
+            color: #72767d;
             margin-top: 5px;
             display: block;
         }
+        
         .message.sent {
-            background-color: #e3f2fd;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
+            background-color: #40444b;
+            border-left: 3px solid #5865f2; /* Bordure bleue pour les messages envoyés */
+            /* Supprimer margin-left: auto */
         }
+        
         .message.received {
-            background-color: #f1f1f1;
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
+            background-color: #32353b;
+            border-left: 3px solid #43b581; /* Bordure verte pour les messages reçus */
+            /* margin-right: auto déjà défini pour tous les messages */
         }
+        
         .message-sender {
             font-weight: bold;
             margin-bottom: 5px;
             font-size: 0.9em;
+            color: #ffffff;
         }
-        h1 {
-            text-align: center;
-            color: #333;
+        
+        .input-container {
+            display: flex;
+            padding: 15px;
+            background-color: #40444b;
+            border-top: 1px solid #202225;
+        }
+        
+        #textIN {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background-color: #40444b;
+            color: #dcddde;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        #btnIN {
+            margin-left: 10px;
+            padding: 0 15px;
+            background-color: #5865f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        #btnIN:hover {
+            background-color: #4752c4;
         }
     </style>
 </head>
 <body>
     <h1 id="aaaNAME"></h1>
-    <input type="text" id="textIN">
-    <button id="btnIN"></button>
     
-
-    <div id="conversation-container" class="conversation">
-        <!-- La conversation sera affichée ici -->
+    <div class="conversation-wrapper">
+        <div id="conversation-container" class="conversation">
+            <!-- La conversation sera affichée ici -->
+        </div>
+    </div>
+    
+    <div class="input-container">
+        <input type="text" id="textIN" placeholder="Envoyer un message...">
+        <button id="btnIN">Envoyer</button>
     </div>
 
     <script>
-        // Fonction pour afficher la conversation
+        // Fonction pour afficher la conversation complète
         function displayconv(messages) {
             const container = document.getElementById('conversation-container');
             container.innerHTML = ''; // Vider le conteneur
             
-            // Parcourir tous les messages
+            // Parcourir tous les messages (en ordre inverse pour l'affichage de bas en haut)
             messages.forEach(message => {
-                // Créer un élément pour le message
-                const messageElement = document.createElement('div');
-                
-                // Déterminer si le message est envoyé ou reçu (pour cet exemple, on considère "partglm" comme l'autre participant)
-                const isReceived = message.by === 'partglm';
-                messageElement.className = `message ${isReceived ? 'received' : 'sent'}`;
-                
-                // Créer le contenu du message
-                let messageHTML = '';
-                
-                // Ajouter le nom de l'expéditeur
-                messageHTML += `<div class="message-sender">${message.by}</div>`;
-                
-                // Ajouter le contenu du message
-                messageHTML += `<div class="message-content">${message.msg}</div>`;
-                
-                // Ajouter l'horodatage
-                messageHTML += `<span class="message-time">${message.when}</span>`;
-                
-                // Définir le HTML du message
-                messageElement.innerHTML = messageHTML;
-                
-                // Ajouter le message au conteneur
-                container.appendChild(messageElement);
+                appendMessageToUI(message);
             });
 
-            const NAME = document.getElementById('aaaNAME')
-            NAME.textContent = new URLSearchParams(window.location.search).get('conv')
+            const NAME = document.getElementById('aaaNAME');
+            NAME.textContent = new URLSearchParams(window.location.search).get('conv');
         }
 
-        async function start () {
-            const parameters = new URLSearchParams(window.location.search)
+        // Fonction pour ajouter un seul message à la conversation
+        function appendATconv(message) {
+            appendMessageToUI(message);
+            scrollToBottom();
+        }
+
+        // Fonction utilitaire pour ajouter un message à l'interface
+        function appendMessageToUI(message) {
+            const container = document.getElementById('conversation-container');
+            
+            // Créer un élément pour le message
+            const messageElement = document.createElement('div');
+            
+            // Déterminer si le message est envoyé ou reçu
+            const isReceived = message.by === 'partglm';
+            messageElement.className = `message ${isReceived ? 'received' : 'sent'}`;
+            
+            // Créer le contenu du message
+            let messageHTML = '';
+            
+            // Ajouter le nom de l'expéditeur
+            messageHTML += `<div class="message-sender">${message.by}</div>`;
+            
+            // Ajouter le contenu du message
+            messageHTML += `<div class="message-content">${message.msg}</div>`;
+            
+            // Ajouter l'horodatage
+            messageHTML += `<span class="message-time">${message.when}</span>`;
+            
+            // Définir le HTML du message
+            messageElement.innerHTML = messageHTML;
+            
+            // Ajouter le message au début du conteneur (pour l'affichage de bas en haut)
+            container.insertBefore(messageElement, container.firstChild);
+        }
+
+        // Fonction pour faire défiler vers le bas
+        function scrollToBottom() {
+            const container = document.getElementById('conversation-container');
+            container.scrollTop = 0; // Comme on utilise flex-direction: column-reverse, 0 est le "bas"
+        }
+
+        async function start() {
+            const parameters = new URLSearchParams(window.location.search);
             const result = await fetch('/api/getContentConv', {
                 method: 'POST',
                 headers: {
-                         'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({param: parameters.get('conv')})
-            })
-            const data = await result.json()
+            });
+            const data = await result.json();
             
-            displayconv(data.content)
+            displayconv(data.content);
+            scrollToBottom();
         }
-        start()
+        start();
 
         const socket = io();
         socket.on('isThisYou?', async ({message, id}) => {
-            const parameters = new URLSearchParams(window.location.search)
-            if (message != parameters.get('conv')) return
+            const parameters = new URLSearchParams(window.location.search);
+            if (message != parameters.get('conv')) return;
 
             const result = await fetch('/api/getMessage', {
                 method: 'POST',
                 headers: {
-                         'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({conv: message})
-            })
-            const data = await result.json()
+            });
+            const data = await result.json();
             
-            appendATconv(data.content)
-        })
+            appendATconv(data.content);
+        });
         
-        document.getElementById('btnIN').addEventListener('click', async () => {
-            const parameters = new URLSearchParams(window.location.search)
+        document.getElementById('btnIN').addEventListener('click', sendMessage);
+        document.getElementById('textIN').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        async function sendMessage() {
+            const textInput = document.getElementById('textIN');
+            const messageText = textInput.value.trim();
+            
+            if (!messageText) return; // Ne pas envoyer de message vide
+            
+            const parameters = new URLSearchParams(window.location.search);
             const result = await fetch('/api/sendMessage', {
                 method: 'POST',
                 headers: {
-                         'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ msg: document.getElementById('textIN').value, who: parameters.get('user'), conv: parameters.get('conv')})
-            })
-        })
+                body: JSON.stringify({ 
+                    msg: messageText, 
+                    who: parameters.get('user'), 
+                    conv: parameters.get('conv')
+                })
+            });
+            
+            // Vider le champ de texte après l'envoi
+            textInput.value = '';
+            textInput.focus();
+        }
     </script>
 </body>
 </html>

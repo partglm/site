@@ -23,7 +23,7 @@ routersendMessage.post('/', async (req,res) => {
 routergetMessage.post('/', async (req,res) => {
     const conv = req.body.conv
     const content = TEMPcontent[conv]
-    res.json(content)
+    res.json({content})
 })
 
 module.exports.send = routersendMessage
