@@ -359,6 +359,7 @@
 
             <button id="deco" onclick="deco()">Déconnexion</button>
             <button id="create" onclick="createCONV()">create a conversation</button>
+            <input type="text" id="createIN">
 
             <section id="posts">
                 <div class="login-form Ffalse">
@@ -390,9 +391,8 @@
     const LISTCONVERSATOIN = document.getElementById("listConversation")
     const MS = document.getElementById('ms')
     const DECO = document.getElementById('deco')
+    const CREATEIN = document.getElementById('createIN')
     let accountloaded = null
-    let numberOfmessage = 0
-    let listOfmessage = []
 
     SHOWCONVERSATION.style.display = 'none'
     DECO.style.display = 'none'
@@ -455,7 +455,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: name, mdp: mdp })
+            body: JSON.stringify({ user: accountloaded, name: CREATEIN.value})
         });
     }
 

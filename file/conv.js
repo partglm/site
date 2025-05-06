@@ -25,6 +25,16 @@ class conversation extends auth{
 
         return contentFile.content
     }
+
+    async createconversation (nameOFtheConv) {
+        const JSONstring = `{
+                                "creator": "${this.user}",
+                                "content": []
+                            }`
+        
+        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`), JSONstring)
+        return 'good'
+    } 
 }
 
 module.exports = conversation
