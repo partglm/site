@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> Liberer vous penser </title>
     <style>
-        body {
+       body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a4fc2 0%, #e91e63 100%);
+            background-color: #1e1e1e; /* VS Code dark background */
             margin: 0;
             padding: 0;
-            color: #333;
+            color: #d4d4d4; /* VS Code text color */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,11 +19,12 @@
         
         .container {
             width: 80%;
-            background-color: #ffffff;
+            background-color: #252526; /* VS Code editor background */
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             max-width: 800px;
+            border: 1px solid #3c3c3c; /* VS Code border color */
         }
 
         .conversation-list {
@@ -35,32 +36,32 @@
 
         .conversation-item {
             padding: 15px;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            border-radius: 4px;
+            transition: all 0.2s ease;
             cursor: pointer;
             display: flex;
             align-items: center;
             text-decoration: none;
-            color: #333;
+            color: #d4d4d4;
+            background-color: #2d2d2d; /* VS Code inactive tab */
+            border-left: 4px solid #3c3c3c;
         }
 
         /* Alternating colors for conversation items */
         .conversation-item:nth-child(odd) {
-            background: linear-gradient(to right, rgba(26, 79, 194, 0.15), rgba(26, 79, 194, 0.05));
-            border-left: 4px solid #1a4fc2;
+            background-color: #2d2d2d;
+            border-left: 4px solid #3c3c3c;
         }
 
         .conversation-item:nth-child(even) {
-            background: linear-gradient(to right, rgba(233, 30, 99, 0.15), rgba(233, 30, 99, 0.05));
-            border-left: 4px solid #e91e63;
+            background-color: #333333;
+            border-left: 4px solid #3c3c3c;
         }
 
         .conversation-item:hover {
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-left: 4px solid transparent;
+            background-color: #264f78; /* VS Code selection background */
+            color: #ffffff;
+            border-left: 4px solid #007acc; /* VS Code accent blue */
         }
 
         .conversation-icon {
@@ -70,25 +71,21 @@
 
         h1 {
             text-align: center;
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #d4d4d4;
             font-size: 2.5rem;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid;
-            border-image: linear-gradient(to right, #1a4fc2, #e91e63) 1;
+            border-bottom: 2px solid #3c3c3c;
         }
 
         #showConversation {
-            background-color: #fafafa;
+            background-color: #1e1e1e; /* VS Code editor background */
             padding: 20px;
             margin-bottom: 20px;
-            border-radius: 8px;
+            border-radius: 4px;
             max-height: 450px;
             overflow-y: auto;
-            border: 1px solid #ddd;
+            border: 1px solid #3c3c3c;
             font-size: 1.1rem;
         }
 
@@ -96,11 +93,13 @@
             width: 100%;
             padding: 10px;
             font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            border-radius: 4px;
+            border: 1px solid #3c3c3c;
             margin-bottom: 15px;
             resize: none;
-            box-sizing: border-box; /* This ensures padding is included in width */
+            box-sizing: border-box;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
         }
 
         #ms {
@@ -109,101 +108,109 @@
 
         .button {
             display: inline-block;
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            background-color: #007acc; /* VS Code accent blue */
             color: #fff;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background 0.3s;
+            transition: background 0.2s;
         }
 
         .button:hover {
-            background: linear-gradient(to right, #0d3aa8, #d01a56);
+            background-color: #0098ff; /* Lighter VS Code blue */
         }
 
         #connect {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            background-color: #007acc; /* VS Code accent blue */
             color: white;
             font-size: 1.2rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-sizing: border-box; /* This ensures padding is included in width */
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
 
         #connect:hover {
-            background: linear-gradient(to right, #0d3aa8, #d01a56);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #0098ff; /* Lighter VS Code blue */
         }
 
         #deco {
-            background: linear-gradient(to right, #e91e63, #1a4fc2);
+            background-color: #4d4d4d; /* VS Code button background */
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: all 0.2s;
             margin-bottom: 15px;
         }
 
         #deco:hover {
-            background: linear-gradient(to right, #d01a56, #0d3aa8);
-            transform: translateY(-2px);
+            background-color: #6a6a6a; /* Lighter button hover */
         }
 
         #create {
-            background: linear-gradient(to right, #e91e63, #1a4fc2);
+            background-color: #007acc; /* VS Code accent blue */
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: all 0.2s;
             margin-bottom: 15px;
         }
 
         #create:hover {
-            background: linear-gradient(to right, #d01a56, #0d3aa8);
-            transform: translateY(-2px);
+            background-color: #0098ff; /* Lighter VS Code blue */
+        }
+
+        #createIN {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #3c3c3c;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         a {
-            color: #1a4fc2;
+            color: #007acc; /* VS Code accent blue */
             text-decoration: none;
             font-size: 0.9rem;
             margin-right: 10px;
-            transition: color 0.3s;
+            transition: color 0.2s;
         }
 
         a:hover {
-            color: #e91e63;
+            color: #0098ff; /* Lighter VS Code blue */
             text-decoration: none;
         }
 
         #tic {
             margin-top: 20px;
             font-size: 0.9rem;
-            color: #555;
+            color: #9d9d9d; /* VS Code secondary text */
             display: block;
             text-align: center;
         }
 
         label {
             font-size: 0.9rem;
-            color: #666;
+            color: #9d9d9d; /* VS Code secondary text */
         }
 
         input[type="checkbox"] {
             margin-right: 5px;
+            accent-color: #007acc; /* VS Code accent blue */
         }
 
         #eulalabel {
@@ -211,16 +218,16 @@
             display: inline-block;
         }
 
-        /* Login form styling with blue-red gradient theme */
+        /* Login form styling with VS Code theme */
         .login-form {
-            background-color: #ffffff;
-            border-radius: 8px;
+            background-color: #252526; /* VS Code editor background */
+            border-radius: 6px;
             padding: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid #3c3c3c;
             position: relative;
             overflow: hidden;
-            box-sizing: border-box; /* This ensures padding is included in width */
+            box-sizing: border-box;
         }
 
         .login-form::before {
@@ -230,7 +237,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            background-color: #007acc; /* VS Code accent blue */
         }
 
         .login-header {
@@ -239,17 +246,14 @@
         }
 
         .login-header h2 {
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: #d4d4d4;
             font-size: 2rem;
             margin-bottom: 5px;
             font-weight: 600;
         }
 
         .login-header p {
-            color: #666;
+            color: #9d9d9d; /* VS Code secondary text */
             font-size: 0.9rem;
         }
 
@@ -259,41 +263,41 @@
             font-size: 1rem;
             width: 100%;
             padding: 10px 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: all 0.3s;
-            box-sizing: border-box; /* This ensures padding is included in width */
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            transition: all 0.2s;
+            box-sizing: border-box;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
         }
 
         #pse:focus, #mdp:focus {
-            border-color: transparent;
+            border-color: #007acc; /* VS Code accent blue */
             outline: none;
-            box-shadow: 0 0 0 2px rgba(26, 79, 194, 0.3), 0 0 0 1px rgba(233, 30, 99, 0.3);
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.4);
         }
 
         #post-form, #posts {
             margin-bottom: 20px;
             width: 100%;
-            box-sizing: border-box; /* This ensures padding is included in width */
+            box-sizing: border-box;
         }
 
         #send {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(to right, #1a4fc2, #e91e63);
+            background-color: #007acc; /* VS Code accent blue */
             color: white;
             font-size: 1.2rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s;
-            box-sizing: border-box; /* This ensures padding is included in width */
+            transition: all 0.2s;
+            box-sizing: border-box;
         }
 
         #send:hover {
-            background: linear-gradient(to right, #0d3aa8, #d01a56);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #0098ff; /* Lighter VS Code blue */
         }
 
         .register-link {
@@ -309,27 +313,27 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(to right, rgba(26, 79, 194, 0.3), rgba(233, 30, 99, 0.3));
+            background-color: #3c3c3c;
         }
 
         .register-link span {
             position: relative;
-            background: white;
+            background: #252526; /* VS Code editor background */
             padding: 0 10px;
-            color: #666;
+            color: #9d9d9d; /* VS Code secondary text */
             font-size: 0.9rem;
         }
 
         .register-link a {
             display: block;
             margin-top: 15px;
-            color: #1a4fc2;
+            color: #007acc; /* VS Code accent blue */
             font-weight: 500;
-            transition: color 0.3s;
+            transition: color 0.2s;
         }
 
         .register-link a:hover {
-            color: #e91e63;
+            color: #0098ff; /* Lighter VS Code blue */
         }
 
         @media (max-width: 768px) {
@@ -392,10 +396,13 @@
     const MS = document.getElementById('ms')
     const DECO = document.getElementById('deco')
     const CREATEIN = document.getElementById('createIN')
+    const CREATE = document.getElementById('create')
     let accountloaded = null
 
     SHOWCONVERSATION.style.display = 'none'
     DECO.style.display = 'none'
+    CREATE.style.display = 'none'
+    CREATEIN.style.display = 'none'
     LISTCONVERSATOIN.style.display = 'none'
 
     if (localStorage.getItem("user") != null
@@ -419,6 +426,8 @@
         CONNECT.style.display = 'none'
         TIC.style.display = 'block'
         DECO.style.display = 'block'
+        CREATE.style.display = 'block'
+        CREATEIN.style.display = 'block'
         SHOWCONVERSATION.style.display = 'block'
         LISTCONVERSATOIN.style.display = 'block'
          

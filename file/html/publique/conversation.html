@@ -7,14 +7,14 @@
     <title>Affichage de Conversation</title>
     <style>
         body {
-            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            background-color: #36393f;
-            color: #dcddde;
+            background-color: #1e1e1e; /* VS Code dark background */
+            color: #d4d4d4; /* VS Code text color */
         }
         
         h1 {
@@ -22,8 +22,8 @@
             color: #ffffff;
             padding: 15px 0;
             margin: 0;
-            background-color: #2f3136;
-            border-bottom: 1px solid #202225;
+            background-color: #252526; /* VS Code editor background */
+            border-bottom: 1px solid #3c3c3c; /* VS Code border color */
         }
         
         .conversation-wrapper {
@@ -40,6 +40,7 @@
             padding: 20px;
             display: flex;
             flex-direction: column-reverse; /* Messages start from bottom */
+            background-color: #1e1e1e; /* VS Code editor background */
         }
         
         .message {
@@ -53,25 +54,25 @@
         
         .message-content {
             word-wrap: break-word;
-            color: #ffffff;
+            color: #d4d4d4; /* VS Code text color */
         }
         
         .message-time {
             font-size: 0.7em;
-            color: #72767d;
+            color: #9d9d9d; /* VS Code secondary text */
             margin-top: 5px;
             display: block;
         }
         
         .message.sent {
-            background-color: #40444b;
-            border-left: 3px solid #5865f2; /* Bordure bleue pour les messages envoyés */
+            background-color: #2d2d2d; /* VS Code inactive tab */
+            border-left: 3px solid #007acc; /* VS Code accent blue */
             /* Supprimer margin-left: auto */
         }
         
         .message.received {
-            background-color: #32353b;
-            border-left: 3px solid #43b581; /* Bordure verte pour les messages reçus */
+            background-color: #252526; /* VS Code editor background */
+            border-left: 3px solid #89d185; /* VS Code success green */
             /* margin-right: auto déjà défini pour tous les messages */
         }
         
@@ -85,25 +86,30 @@
         .input-container {
             display: flex;
             padding: 15px;
-            background-color: #40444b;
-            border-top: 1px solid #202225;
+            background-color: #252526; /* VS Code editor background */
+            border-top: 1px solid #3c3c3c; /* VS Code border color */
         }
         
         #textIN {
             flex: 1;
             padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background-color: #40444b;
-            color: #dcddde;
+            border-radius: 4px;
+            border: 1px solid #3c3c3c; /* VS Code border color */
+            background-color: #1e1e1e; /* VS Code editor background */
+            color: #d4d4d4; /* VS Code text color */
             font-size: 16px;
             outline: none;
+        }
+        
+        #textIN:focus {
+            border-color: #007acc; /* VS Code accent blue */
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.4);
         }
         
         #btnIN {
             margin-left: 10px;
             padding: 0 15px;
-            background-color: #5865f2;
+            background-color: #007acc; /* VS Code accent blue */
             color: white;
             border: none;
             border-radius: 4px;
@@ -113,7 +119,25 @@
         }
         
         #btnIN:hover {
-            background-color: #4752c4;
+            background-color: #0098ff; /* Lighter VS Code blue */
+        }
+
+        /* VS Code scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e; /* VS Code editor background */
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3c3c3c; /* VS Code border color */
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4d4d4d; /* Lighter border color */
         }
     </style>
 </head>
