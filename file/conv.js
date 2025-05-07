@@ -27,12 +27,9 @@ class conversation extends auth{
     }
 
     async createconversation (nameOFtheConv) {
-        const JSONstring = `{
-                                "creator": "${this.user}",
-                                "content": []
-                            }`
+        const JSONstring ={"creator": "${this.user}","content": []}
         
-        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`), JSONstring)
+        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`), JSON.stringify(JSONstring, null, 2))
         return 'good'
     } 
 }

@@ -7,6 +7,7 @@ const registerRouter = require('./post/register')
 const routergetContentConv = require('./post/getContentConv')
 const routersendMessage = require('./post/send_get:Message').send
 const routergetMessage = require('./post/send_get:Message').get
+const routercreateCONV = require('./post/createCONV')
 
 const router = app.express.Router()
 new log("router post loaded")
@@ -17,5 +18,6 @@ router.use('/register', registerRouter)
 router.use('/getContentConv', routergetContentConv)
 router.use('/getMessage', routergetMessage)
 router.use('/sendMessage', routersendMessage)
+router.use('/createCONV', routercreateCONV)
 
 module.exports = router
