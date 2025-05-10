@@ -28,6 +28,11 @@ class get {
       res.sendFile(path.join(__dirname, 'html','private','dev.html'))
     })
 
+    app2.get('/js/terminale', (req,res) => {
+      if (!DEV_TOOLS) return
+      res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
+    })
+
     app2.use('/api', router)
 
     app2.use((req, res) => {
