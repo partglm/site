@@ -19,7 +19,7 @@ routerAuth.post('/', (req,res) => {
         new log("user conected")
         return} 
      
-    res.status(401).json({securitynum : 2, message: authentified})
+    res.status(200).json({securitynum : 2, message: authentified})
     new log(authentified)
 })
 

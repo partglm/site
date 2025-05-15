@@ -1,3 +1,4 @@
+console.log('dev js laoded')
 const originalLog = console.log;
 console.log = function (...args) {
   originalLog.apply(console, args);
