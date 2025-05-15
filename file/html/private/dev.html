@@ -13,12 +13,13 @@
   }
 </style>
 <body>
-  <iframe id="iframe" src="http://127.0.0.1:8080/"  sandbox="allow-scripts allow-same-origin"></iframe>
+  <div id="container"></div>
+  <iframe id="iframe"  sandbox="allow-scripts allow-same-origin"></iframe>
 </body>
 <script>
+  document.getElementById('iframe').src = 'http://' +window.location.hostname + '/'
   window.addEventListener('message', (event) => {
-    eval(`console.${event.data.type}(${event.data.message})`)
-    console.log('log recu')
+    alert('log recu')
   })
 </script>
 </html>

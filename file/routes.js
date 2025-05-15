@@ -31,6 +31,7 @@ class get {
     app2.get('/js/terminale', (req,res) => {
       if (!DEV_TOOLS) return
       res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
+      new log('js terminal script send')
     })
 
     app2.use('/api', router)
