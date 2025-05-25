@@ -9,15 +9,15 @@
 
   <style>
     :root {
-      --bg-color: #f8f9fa;
-      --terminal-bg: #1e1e1e;
-      --terminal-text: #e0e0e0;
-      --border-color: #e0e0e0;
-      --info-color: #4caf50;
-      --error-color: #f44336;
-      --warning-color: #ff9800;
-      --header-height: 50px;
-      --terminal-height: 200px;
+      --bg-color: #1e1e1e; /* VS Code dark background */
+      --terminal-bg: #1e1e1e; /* VS Code editor background */
+      --terminal-text: #d4d4d4; /* VS Code text color */
+      --border-color: #3c3c3c; /* VS Code border color */
+      --info-color: #89d185; /* VS Code success green */
+      --error-color: #f48771; /* VS Code error red */
+      --warning-color: #e9a700; /* VS Code warning yellow */
+      --command-color: #007acc; /* VS Code accent blue */
+      --terminal-height: 99%;
     }
 
     * {
@@ -27,33 +27,12 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg-color);
       height: 100vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-    }
-
-    header {
-      height: var(--header-height);
-      background-color: white;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      justify-content: space-between;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .title {
-      font-weight: 600;
-      font-size: 16px;
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
     }
 
     .btn {
@@ -64,10 +43,11 @@
       cursor: pointer;
       font-size: 14px;
       transition: all 0.2s;
+      color: var(--terminal-text);
     }
 
     .btn:hover {
-      background-color: #f1f1f1;
+      background-color: #264f78; /* VS Code selection background */
     }
 
     .main-container {
@@ -75,21 +55,6 @@
       flex-direction: column;
       flex: 1;
       overflow: hidden;
-    }
-
-    .iframe-container {
-      flex: 1;
-      position: relative;
-      border-bottom: 1px solid var(--border-color);
-      background-color: white;
-      overflow: hidden;
-    }
-
-    #iframe {
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      border: none;
     }
 
     #terminal {
@@ -101,6 +66,8 @@
       font-size: 13px;
       padding: 10px;
       resize: vertical;
+      display: flex;
+      flex-direction: column;
     }
 
     .terminal-header {
@@ -108,13 +75,14 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 10px;
-      background-color: #2d2d2d;
-      border-bottom: 1px solid #3e3e3e;
+      background-color: #252526; /* VS Code editor background */
+      border-bottom: 1px solid var(--border-color);
     }
 
     .terminal-title {
       font-size: 13px;
       font-weight: 500;
+      color: var(--terminal-text);
     }
 
     .terminal-actions {
@@ -125,7 +93,7 @@
     .terminal-btn {
       background: none;
       border: none;
-      color: #a0a0a0;
+      color: #9d9d9d; /* VS Code secondary text */
       cursor: pointer;
       font-size: 12px;
       padding: 2px 6px;
@@ -133,13 +101,17 @@
     }
 
     .terminal-btn:hover {
-      background-color: #3e3e3e;
+      background-color: #264f78; /* VS Code selection background */
       color: white;
     }
 
     #content {
       padding: 10px;
       line-height: 1.5;
+      flex: 1;
+      display: flex;
+      flex-direction: column-reverse; /* Start from bottom */
+      overflow-y: auto;
     }
 
     .log-entry {
@@ -148,7 +120,7 @@
     }
 
     .log-time {
-      color: #888;
+      color: #9d9d9d; /* VS Code secondary text */
       margin-right: 8px;
       flex-shrink: 0;
     }
@@ -173,44 +145,28 @@
 
     .log-message {
       word-break: break-word;
+      color: var(--terminal-text);
     }
 
-    .resize-handle {
-      height: 5px;
-      background-color: #2d2d2d;
-      cursor: ns-resize;
-    }
-
-    @media (min-width: 768px) {
+    @media (min-width: 99%) {
       .main-container {
         flex-direction: row;
       }
       
-      .iframe-container {
-        flex: 1;
-        border-right: 1px solid var(--border-color);
-        border-bottom: none;
-      }
-      
       #terminal {
-        width: 400px;
+        width: 99%;
         height: auto;
-        max-width: 40%;
+        max-width: 100%;
         resize: horizontal;
       }
-      
-      .resize-handle {
-        width: 5px;
-        height: auto;
-        cursor: ew-resize;
-      }
     }
+
     .terminal-input-container {
       display: flex;
       align-items: center;
       padding: 8px 10px;
-      background-color: #252525;
-      border-top: 1px solid #3e3e3e;
+      background-color: #252526; /* VS Code editor background */
+      border-top: 1px solid var(--border-color);
     }
 
     .prompt {
@@ -227,50 +183,44 @@
       font-size: 13px;
       outline: none;
     }
+
+    #terminal-input:focus {
+      outline: none;
+    }
+
+    /* VS Code scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--terminal-bg);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4d4d4d;
+    }
   </style>
 </head>
-<body>
-  <header>
-    <div class="title">Site Preview</div>
-    <div class="controls">
-      <button class="btn" id="clear-logs">Clear Console</button>
-      <button class="btn" id="refresh-iframe">Refresh Preview</button>
-    </div>
-  </header>
-
-  <div class="main-container">
-    <div class="iframe-container">
-      <iframe id="iframe" sandbox="allow-scripts allow-same-origin"></iframe>
-    </div>
-    
-    <div class="resize-handle" id="resize-handle"></div>
-    
+<body>        
     <div id="terminal">
-      <div class="terminal-header">
-        <div class="terminal-title">Console</div>
-        <div class="terminal-actions">
-          <button class="terminal-btn" id="toggle-terminal">Minimize</button>
-        </div>
-      </div>
       <div id="content"></div>
       <div class="terminal-input-container">
         <span class="prompt">$</span>
-        <input type="text" id="terminal-input" placeholder="Type a command..." autocomplete="off">
+        <input type="text" id="terminal-input" placeholder="Type a command..." autocomplete="on">
       </div>
     </div>
   </div>
 
-  <script>
-    // Set iframe source
-    function port () {
-      if (document.location.port != 80) return ':' + document.location.port
-      return ''
-    }
-    document.getElementById('iframe').src = 'http://' + window.location.hostname + port() + window.location.port + '/';
-    
+  <script>  
     // Handle messages
-    window.addEventListener('message', (event) => {
-      const now = new Date();
+    function displayLog (event) {
+            const now = new Date();
       const time = now.toLocaleTimeString();
       
       // Create log entry elements
@@ -308,88 +258,37 @@
       logEntry.appendChild(logType);
       logEntry.appendChild(logMessage);
       
-      // Add to console
+      // Add to console (prepend for bottom-up display)
       const content = document.getElementById('content');
-      content.appendChild(logEntry);
+      content.insertBefore(logEntry, content.firstChild);
       
-      // Auto-scroll to bottom
-      content.scrollTop = content.scrollHeight;
-    });
-    
-    // Clear logs button
-    document.getElementById('clear-logs').addEventListener('click', () => {
-      document.getElementById('content').innerHTML = '';
-    });
-    
-    // Refresh iframe button
-    document.getElementById('refresh-iframe').addEventListener('click', () => {
-      const iframe = document.getElementById('iframe');
-      iframe.src = iframe.src;
-    });
-    
-    // Toggle terminal visibility
-    document.getElementById('toggle-terminal').addEventListener('click', (e) => {
-      const terminal = document.getElementById('terminal');
-      const button = e.target;
-      
-      if (terminal.style.height === '30px') {
-        terminal.style.height = '';
-        button.textContent = 'Minimize';
-      } else {
-        terminal.style.height = '30px';
-        button.textContent = 'Expand';
-      }
-    });
-    
-    // Implement resize functionality
-    const resizeHandle = document.getElementById('resize-handle');
-    const terminal = document.getElementById('terminal');
-    
-    let isResizing = false;
-    
-    resizeHandle.addEventListener('mousedown', (e) => {
-      isResizing = true;
-      document.body.style.cursor = window.innerWidth >= 768 ? 'ew-resize' : 'ns-resize';
-      e.preventDefault();
-    });
+      // Auto-scroll to bottom (which is now top due to flex-direction: column-reverse)
+      content.scrollTop = 0;
+    }
+    window.addEventListener('message', (event) => {displayLog(event)});
+  
     document.addEventListener('keydown', (event) => {
       if(event.key.toLowerCase() == 'enter') {
-        const a = eval(document.getElementById('terminal-input').value)
-        console.log(a)
+        try {
+          if (!document.getElementById('terminal-input').value) return
+
+          const a = eval(document.getElementById('terminal-input').value) 
+          const stringOfA = typeof a == "object" ? JSON.stringify(a): a
+
+          const Aobject = {data: { message: stringOfA}}
+          displayLog(Aobject)
+
+          document.getElementById('terminal-input').value = '';
+        } catch (error) {
+
+          const AobjectError = {data: { message: error, type: 'error'}}
+          displayLog(AobjectError)
+
+          document.getElementById('terminal-input').value = '';
+        }
       }
     })
-    
-    document.addEventListener('mousemove', (e) => {
-      if (!isResizing) return;
-      
-      if (window.innerWidth >= 768) {
-        // Horizontal resize on desktop
-        const containerWidth = document.querySelector('.main-container').offsetWidth;
-        const newWidth = containerWidth - e.clientX;
-        const minWidth = 200;
-        const maxWidth = containerWidth * 0.8;
-        
-        if (newWidth >= minWidth && newWidth <= maxWidth) {
-          terminal.style.width = newWidth + 'px';
-        }
-      } else {
-        // Vertical resize on mobile
-        const containerHeight = document.querySelector('.main-container').offsetHeight;
-        const newHeight = e.clientY - document.querySelector('header').offsetHeight;
-        const minHeight = 100;
-        const maxHeight = containerHeight * 0.8;
-        
-        if (newHeight >= minHeight && newHeight <= maxHeight) {
-          terminal.style.height = (containerHeight - newHeight) + 'px';
-        }
-      }
-    });
-    
-    document.addEventListener('mouseup', () => {
-      isResizing = false;
-      document.body.style.cursor = '';
-    });
-    
+
     // Add a welcome message
     window.dispatchEvent(new MessageEvent('message', {
       data: {

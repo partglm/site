@@ -185,7 +185,7 @@
             const messageElement = document.createElement('div');
             
             // Déterminer si le message est envoyé ou reçu
-            const isReceived = message.by === new URLSearchParams(window.location.search).get('user');
+            const isReceived = message.by === localStorage.getItem('user');
             messageElement.className = `message ${isReceived ? 'received' : 'sent'}`;
             
             // Créer le contenu du message
@@ -292,7 +292,7 @@
                 },
                 body: JSON.stringify({ 
                     msg: messageText, 
-                    who: parameters.get('user'), 
+                    who: localStorage.getItem('user'), 
                     conv: parameters.get('conv')
                 })
             });

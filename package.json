@@ -16,7 +16,8 @@
   "main": "MAIN.js",
   "scripts": {
     "test": "node MAIN.js --no-start --no-log",
-    "start": "node MAIN.js"
+    "debug": "node MAIN.js",
+    "start": "node MAIN.js --no-log"
   },
   "author": "",
   "license": "ISC",
