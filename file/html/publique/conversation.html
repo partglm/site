@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <script src="js/terminale"></script>
+    <!-- <script src="../js/terminale"></script> -->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Affichage de Conversation</title>
@@ -212,9 +212,34 @@
             const container = document.getElementById('conversation-container');
             container.scrollTop = 0; // Comme on utilise flex-direction: column-reverse, 0 est le "bas"
         }
-
+        
+        function ErrorAuth (error) {
+            window.location.href = '/?err=' + JSON.stringify(error)
+        }
+        
         async function start() {
             const parameters = new URLSearchParams(window.location.search);
+            //verify if user can access to it
+            try {
+                //localStorage.setItem("user","test")
+                //localStorage.setItem("pass","test")
+                //alert(localStorage.getItem('user') + localStorage.getItem('pass'))
+                const responseauth = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: {
+                            'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: localStorage.getItem('user'), mdp: localStorage.getItem('pass') })
+                });
+                const dataauth = await responseauth.json();
+                if (!responseauth.ok) return alert(JSON.stringify(dataauth.message, null, 2));
+
+                if (dataauth.securitynum == 2) return ErrorAuth("you can't access to it, if you believe this is an error please contact an administrator");
+            } catch (error) {
+                alert(error)
+                throw console.error('Erreur réseau ou serveur :', error);
+            }
+
             const result = await fetch('/api/getContentConv', {
                 method: 'POST',
                 headers: {

@@ -262,7 +262,11 @@
 
   <script>
     // Set iframe source
-    document.getElementById('iframe').src = 'http://' + window.location.hostname + ':' + window.location.port + '/';
+    function port () {
+      if (document.location.port != 80) return ':' + document.location.port
+      return ''
+    }
+    document.getElementById('iframe').src = 'http://' + window.location.hostname + port() + window.location.port + '/';
     
     // Handle messages
     window.addEventListener('message', (event) => {
@@ -350,7 +354,8 @@
     });
     document.addEventListener('keydown', (event) => {
       if(event.key.toLowerCase() == 'enter') {
-        eval(document.getElementById('terminal-input').value)
+        const a = eval(document.getElementById('terminal-input').value)
+        console.log(a)
       }
     })
     

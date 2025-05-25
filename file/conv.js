@@ -11,12 +11,20 @@ class conversation extends auth{
     }
 
     async getconversationForUser () {
-        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${this.user}.json`))
-        const contentFile = JSON.parse(contentFilebrut)
+        const contentFile = await this.readWhoparticipewhere()
         const listOfId = contentFile.listconv 
         
         return listOfId
     }
+
+    async readWhoparticipewhere () {
+        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${this.user}.json`))
+        const contentFile = JSON.parse(contentFilebrut)
+        const listOfId = contentFile
+        
+        return listOfId
+    }
+    
 
     async getconversationContentWithNameOfIt (nameOFtheConv) {
         new log("loading content for " + nameOFtheConv)
@@ -27,9 +35,18 @@ class conversation extends auth{
     }
 
     async createconversation (nameOFtheConv) {
-        const JSONstring ={"creator": "${this.user}","content": []}
+        const errorFile = await fs.promises.readFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`))
+        if(errorFile) return 'this name is already use'
+
+        const JSONstring ={"creator": `${this.user}`,"content": []}
         
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`), JSON.stringify(JSONstring, null, 2))
+
+        const participationBrut = await this.readWhoparticipewhere()
+        participationBrut.listconv.push({"name": nameOFtheConv, "href": `/conversation/?conv=${nameOFtheConv}&user=${this.user}`})
+
+        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'whoparticipewhere', `${this.user}.json`), JSON.stringify(participationBrut, null, 2))
+
         return 'good'
     } 
 }
