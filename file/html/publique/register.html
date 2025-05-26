@@ -5,20 +5,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <script src="js/terminale"></script> -->
     <title>Sign In</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e; /* VS Code dark background */
+            margin: 0;
+            padding: 0;
+            color: #d4d4d4; /* VS Code text color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #252526; /* VS Code editor background */
+            padding: 40px;
+            border-radius: 6px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid #3c3c3c; /* VS Code border color */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #007acc; /* VS Code accent blue */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #d4d4d4;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #9d9d9d; /* VS Code secondary text */
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-size: 1rem;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007acc; /* VS Code accent blue */
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.4);
+        }
+
+        input[type="text"]::placeholder {
+            color: #9d9d9d; /* VS Code secondary text */
+        }
+
+        #eulalabel {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #9d9d9d; /* VS Code secondary text */
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin: 0;
+            accent-color: #007acc; /* VS Code accent blue */
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        #eulalabel a {
+            color: #007acc; /* VS Code accent blue */
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        #eulalabel a:hover {
+            color: #0098ff; /* Lighter VS Code blue */
+            text-decoration: underline;
+        }
+
+        #SignIn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007acc; /* VS Code accent blue */
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        #SignIn:hover {
+            background-color: #0098ff; /* Lighter VS Code blue */
+        }
+
+        #SignIn:active {
+            transform: translateY(1px);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .login-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #3c3c3c;
+        }
+
+        .login-link span {
+            position: relative;
+            background: #252526; /* VS Code editor background */
+            padding: 0 10px;
+            color: #9d9d9d; /* VS Code secondary text */
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            display: block;
+            margin-top: 15px;
+            color: #007acc; /* VS Code accent blue */
+            font-weight: 500;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            color: #0098ff; /* Lighter VS Code blue */
+        }
+
+        /* Error styling for form validation */
+        .error {
+            border-color: #f48771 !important; /* VS Code error red */
+            box-shadow: 0 0 0 2px rgba(244, 135, 113, 0.4) !important;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            input[type="text"], #SignIn {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form>
-        <input type="text" placeholder="enter a username" id="Fuser">
-        <input type="text" placeholder="enter a password" id="Fpass">
-        <input type="text" placeholder="confirm your password" id="FconfPass">
-        <input type="text" placeholder="enter a email" id="Femail">
+    <div class="container">
+        <div class="header">
+            <h1>Créer un compte</h1>
+            <p>Rejoignez-nous pour commencer vos conversations</p>
+        </div>
+
+        <form>
+            <input type="text" placeholder="Nom d'utilisateur" id="Fuser">
+            <input type="text" placeholder="Mot de passe" id="Fpass">
+            <input type="text" placeholder="Confirmer le mot de passe" id="FconfPass">
+            <input type="text" placeholder="Adresse email" id="Femail">
+            
+            <label for="eula" id="eulalabel">
+                <input type="checkbox" id="eula" onclick="eulaBooleaner()">
+                <span>J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a></span>
+            </label>
+        </form>
         
-        <label for="eula" id="eulalabel">
-            <input type="checkbox" id="eula" onclick="eulaBooleaner()">
-            J'accepte les <a href="EULA" target="_blank">conditions générales d'utilisation</a>
-        </label>
-    </form>
-    <button id="SignIn">Sign In</button>
+        <button id="SignIn">Créer le compte</button>
+
+        <div class="login-link">
+            <span>Déjà un compte ?</span>
+            <a href="/">Se connecter</a>
+        </div>
+    </div>
 
     <script>
         const FUSER = document.getElementById('Fuser')
@@ -34,11 +239,30 @@
         }
 
         SIGNIN.addEventListener('click', async function () {
+            // Clear previous error states
+            [FUSER, FPASS, FCONFPASS, FEMAIL].forEach(input => {
+                input.classList.remove('error');
+            });
+
             if (EULABOOLEAN === false) {return alert("veuillez accepter les conditions générales d'utilisation")}
-            if (FCONFPASS.value != FPASS.value) return alert('the password is not the same')
-                const a = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm 
-            if (!a.test(FEMAIL.value)) return alert("the entered email is not a email")
-            if (FUSER.value == null || FPASS.value == null || FEMAIL.value == null) return alert("it's can't be empty")
+            
+            if (FCONFPASS.value != FPASS.value) {
+                FCONFPASS.classList.add('error');
+                return alert('the password is not the same');
+            }
+            
+            const a = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/gm 
+            if (!a.test(FEMAIL.value)) {
+                FEMAIL.classList.add('error');
+                return alert("the entered email is not a email");
+            }
+            
+            if (FUSER.value == null || FPASS.value == null || FEMAIL.value == null) {
+                if (!FUSER.value) FUSER.classList.add('error');
+                if (!FPASS.value) FPASS.classList.add('error');
+                if (!FEMAIL.value) FEMAIL.classList.add('error');
+                return alert("it's can't be empty");
+            }
 
             const request = await fetch('/api/register', {
                 method: 'POST',

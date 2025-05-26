@@ -19,7 +19,7 @@ class SocketManager {
             });
         });
 
-        
+        this.io.emit('reload', ({a: null}))        
     }
 
     // Méthode personnalisée pour envoyer un message à tous les clients

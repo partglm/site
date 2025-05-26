@@ -157,6 +157,7 @@
     </div>
 
     <script>
+
         // Fonction pour afficher la conversation complète
         function displayconv(messages) {
             const container = document.getElementById('conversation-container');
@@ -255,6 +256,8 @@
         start();
 
         const socket = io();
+
+        socket.on('reload', ({a}) => { window.location.reload()}) 
         socket.on('isThisYou?', async ({message, id}) => {
             const parameters = new URLSearchParams(window.location.search);
             if (message != parameters.get('conv')) return;
