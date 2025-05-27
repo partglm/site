@@ -235,7 +235,9 @@
                 const dataauth = await responseauth.json();
                 if (!responseauth.ok) return alert(JSON.stringify(dataauth.message, null, 2));
 
-                if (dataauth.securitynum == 2) return ErrorAuth("you can't access to it, if you believe this is an error please contact an administrator");
+                if (dataauth.securitynum != 0) {
+                if (dataauth.securitynum == 2) return ErrorAuth("you can't access to it, if you believe this is an error please contact an administrator");}
+                
             } catch (error) {
                 alert(error)
                 throw console.error('Erreur réseau ou serveur :', error);

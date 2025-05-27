@@ -10,7 +10,7 @@ routerAuth.post('/', (req,res) => {
     new log("authentification for" + JSON.stringify(new auth(name, mdp)))
 
     if (authentified == 'ADMIN') {
-        res.status(200).json({ securitynum : 0, message: '/admin'})
+        res.status(200).json({ securitynum : 0, message: '/admin', name: name})
         new log("admin conected")
        return}
 
