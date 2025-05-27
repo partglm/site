@@ -25,6 +25,11 @@ class conversation extends auth{
         return listOfId
     }
     
+    async canAccess (conv) {
+        const list = await this.readWhoparticipewhere()
+        if (!list.listconv.some(a => a.name === conv)) return false 
+        return true 
+    }
 
     async getconversationContentWithNameOfIt (nameOFtheConv) {
         new log("loading content for " + nameOFtheConv)

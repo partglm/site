@@ -225,18 +225,18 @@
                 //localStorage.setItem("user","test")
                 //localStorage.setItem("pass","test")
                 //alert(localStorage.getItem('user') + localStorage.getItem('pass'))
-                const responseauth = await fetch('/api/auth', {
+                const responseauth = await fetch('/api/convAcess', {
                     method: 'POST',
                     headers: {
                             'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ name: localStorage.getItem('user'), mdp: localStorage.getItem('pass') })
+                    body: JSON.stringify({ user: localStorage.getItem('user'), mdp: localStorage.getItem('pass'), name: parameters.get('conv')})
                 });
                 const dataauth = await responseauth.json();
                 if (!responseauth.ok) return alert(JSON.stringify(dataauth.message, null, 2));
 
-                if (dataauth.securitynum != 0) {
-                if (dataauth.securitynum == 2) return ErrorAuth("you can't access to it, if you believe this is an error please contact an administrator");}
+                console.log(dataauth.res)
+                if (!dataauth.res) return ErrorAuth("you can't access to it, if you believe this is an error please contact an administrator");
                 
             } catch (error) {
                 alert(error)
