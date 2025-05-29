@@ -26,8 +26,11 @@ class conversation extends auth{
     }
     
     async canAccess (conv) {
+        if (this.authentication() === 'ADMIN') return true
+
         const list = await this.readWhoparticipewhere()
         if (!list.listconv.some(a => a.name === conv)) return false 
+        
         return true 
     }
 
