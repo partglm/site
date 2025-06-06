@@ -1,5 +1,6 @@
 const Docker = require('dockerode');
 const Stream = require('stream');
+const { log } = require('./logger');
 
 class DockerManager {
   constructor() {
@@ -26,6 +27,7 @@ class DockerManager {
   }
 
   async runCommand(commandIN) {
+    new log('running: ' + commandIN)
     await this.ensureReady(); // wait for init to finish
 
     if (!this.container) {
@@ -53,13 +55,16 @@ class DockerManager {
   async pullImage(imageName) {
     return new Promise((resolve, reject) => {
       this.docker.pull(imageName, (err, stream) => {
+
         if (err) return reject(err);
-        this.docker.modem.followProgress(stream, onFinished, onProgress);
+
+        const onProgress = () => {}
         function onFinished(err, output) {
           if (err) reject(err);
           else resolve(output);
         }
-        function onProgress() {}
+
+        this.docker.modem.followProgress(stream, onFinished, onProgress);
       });
     });
   }
@@ -67,11 +72,14 @@ class DockerManager {
   getOutput(stream) {
     return new Promise((resolve, reject) => {
       const stdout = new Stream.PassThrough();
+
       this.docker.modem.demuxStream(stream, stdout, process.stderr);
       let data = '';
+
       stdout.on('data', chunk => {
         data += chunk.toString();
       });
+      
       stream.on('end', () => resolve(data.trim()));
       stream.on('error', reject);
     });

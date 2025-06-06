@@ -18,7 +18,8 @@
   "scripts": {
     "test": "node MAIN.js --no-start --no-log",
     "debug": "node MAIN.js",
-    "start": "node MAIN.js --no-log"
+    "start": "node MAIN.js --no-log",
+    "restart": "kill node MAIN.js" 
   },
   "author": "",
   "license": "ISC",

@@ -218,6 +218,7 @@
   </div>
 
   <script>  
+    const global = {}
     // Handle messages
     function displayLog (event) {
             const now = new Date();
@@ -267,18 +268,43 @@
     }
     window.addEventListener('message', (event) => {displayLog(event)});
   
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', async (event) => {
       if(event.key.toLowerCase() == 'enter') {
+      if (!document.getElementById('terminal-input').value) console.error('please enter a value')
         try {
-          if (!document.getElementById('terminal-input').value) return
+          const input = document.getElementById('terminal-input').value.toLowerCase()
+          if (input == 'mode linux') {
+            console.log('linux mode')
+            document.getElementById('terminal-input').value = '';
+            return global.linux = true
+          }
+          if (input == 'mode web') {
+            console.log('linux web');
+            document.getElementById('terminal-input').value = '';
+            return global.linux = false
+          }
 
-          const a = eval(document.getElementById('terminal-input').value) 
-          const stringOfA = typeof a == "object" ? JSON.stringify(a): a
+          if (global.linux) {
+            const result = await fetch('api/linux', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ cmd: input})            
+            })
+            const data = await result.json()
+            if(data.err) return console.error(data.err);
+            console.log(data.result)
+            document.getElementById('terminal-input').value = '';
+          }else{
+            const a = eval(document.getElementById('terminal-input').value) 
+            const stringOfA = typeof a == "object" ? JSON.stringify(a): a
 
-          const Aobject = {data: { message: stringOfA}}
-          displayLog(Aobject)
+            const Aobject = {data: { message: stringOfA}}
+            displayLog(Aobject)
 
-          document.getElementById('terminal-input').value = '';
+            document.getElementById('terminal-input').value = '';
+          }
         } catch (error) {
 
           const AobjectError = {data: { message: error, type: 'error'}}

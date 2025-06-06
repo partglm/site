@@ -352,10 +352,27 @@
       document.body.style.cursor = window.innerWidth >= 768 ? 'ew-resize' : 'ns-resize';
       e.preventDefault();
     });
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', async (event) => {
       if(event.key.toLowerCase() == 'enter') {
-        const a = eval(document.getElementById('terminal-input').value)
-        console.log(a)
+        const input = document.getElementById('terminal-input').value.toLowerCase()
+        if (input == 'mode linux') {return global.linux = true}
+        if (input == 'mode web') {return global.linux = false}
+
+        if (global.linux) {
+          const result = await fetch('api/linux', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cmd: input})            
+          })
+          const data = await result.json()
+          if(data.err) return console.error(data.err);
+          console.log(data.result)
+        }else{
+          const a = eval(input)
+          console.log(a)
+        }
       }
     })
     
