@@ -10,10 +10,10 @@ class DockerManager {
   }
 
   async init() {
-    await this.pullImage('alpine');
+    await this.pullImage('ubuntu');
 
     this.container = await this.docker.createContainer({
-      Image: 'alpine',
+      Image: 'ubuntu',
       Cmd: ['/bin/sh'],
       Tty: true,
       OpenStdin: true,

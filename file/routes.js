@@ -3,6 +3,8 @@ const {DEV_TOOLS, ADMIN_PANNEL}= require('./config')
 const app = require('./app')
 const router = require('./post')
 const { log, logip } = require('./logger');
+const ADMIN = require('./admin');
+
 
 class get {
   constructor() {
@@ -24,17 +26,17 @@ class get {
     })
 
     app2.get('/admin', (req,res) => {
-      if (!ADMIN_PANNEL) return
+      if (!ADMIN_PANNEL || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
       res.sendFile(path.join(prepath, 'authAdmin.html'))
     })
 
     app2.get('/terminal', (req,res) => {
-      if (!DEV_TOOLS) return
-      res.sendFile(path.join(__dirname, 'html','private','dev.html'))
+      if (!DEV_TOOLS || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
+      res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
     })
 
     app2.get('/js/terminale', (req,res) => {
-      if (!DEV_TOOLS) return
+      if (!DEV_TOOLS || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
       res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
       new log('js terminal script send')
     })

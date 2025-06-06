@@ -293,7 +293,10 @@
               body: JSON.stringify({ cmd: input})            
             })
             const data = await result.json()
-            if(data.err) return console.error(data.err);
+            if(data.err) {
+              return console.error(data.err);
+              document.getElementById('terminal-input').value = '';
+            }
             console.log(data.result)
             document.getElementById('terminal-input').value = '';
           }else{
