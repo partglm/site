@@ -2,7 +2,7 @@ const {log} = require('./logger')
 const {auth} = require('./auth')
 
 const oneSessionIDlist = []
-let key;
+let key = {}
 
 class ADMIN extends auth {
     constructor(user, mdp) {

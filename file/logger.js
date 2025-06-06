@@ -36,6 +36,10 @@ class logTable {
 function logEvent(message) {
   if (process.argv.includes('--no-log'))  return
 
+  if(typeof message == 'object') {
+    message = JSON.stringify(message)
+  }
+
   const timestamp = new Date().toLocaleString();
   const logEntry = `[${timestamp}]: ${message}`;
   fs.appendFileSync(path.join(__dirname, 'data/data.txt'), `${logEntry}\n`, 'utf8');

@@ -26,6 +26,7 @@ class get {
     })
 
     app2.get('/admin', (req,res) => {
+      new log(req.cookies)
       if (!ADMIN_PANNEL || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
       res.sendFile(path.join(prepath, 'authAdmin.html'))
     })

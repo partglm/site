@@ -19,6 +19,10 @@
         // Usage
         const shortLived = getCookie('oneSessionID');
         console.log(shortLived)
+
+        (async () => {
+          await fetch('/terminal')
+        })
     </script>
 </body>
 </html>
