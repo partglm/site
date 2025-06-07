@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<button id="a" onclick="window.location.href = '/terminal'">terminal</button>
 <body>
     <script>
         function getCookie(name) {
@@ -20,9 +21,19 @@
         const shortLived = getCookie('oneSessionID');
         console.log(shortLived)
 
-        (async () => {
-          await fetch('/terminal')
-        })
+        const a = async () => {
+          const result = await fetch('/api/linux', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cmd: 'ls'})
+          })
+          const data = await result.json()
+          console.log(data)
+        }
+
+        a()
     </script>
 </body>
 </html>

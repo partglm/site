@@ -39,6 +39,9 @@ function logEvent(message) {
   if(typeof message == 'object') {
     message = JSON.stringify(message)
   }
+  if(typeof message == 'array') {
+    message = Array.toString(message)
+  }
 
   const timestamp = new Date().toLocaleString();
   const logEntry = `[${timestamp}]: ${message}`;

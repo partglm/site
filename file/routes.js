@@ -27,17 +27,17 @@ class get {
 
     app2.get('/admin', (req,res) => {
       new log(req.cookies)
-      if (!ADMIN_PANNEL || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
+      if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
       res.sendFile(path.join(prepath, 'authAdmin.html'))
     })
 
     app2.get('/terminal', (req,res) => {
-      if (!DEV_TOOLS || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
+      if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
       res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
     })
 
     app2.get('/js/terminale', (req,res) => {
-      if (!DEV_TOOLS || !ADMIN.oneSessionIDauth(req.cookies.oneSessionID) === true) return
+      if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
       res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
       new log('js terminal script send')
     })
@@ -45,6 +45,9 @@ class get {
     app2.use('/api', router)
 
     app2.use((req, res) => {
+      const blacklist = ['/.well-known/appspecific/com.chrome.devtools.json']
+      if (blacklist.includes(req.url)) return
+
       res.status(404).sendFile('img/featured_404.jpg', { root: __dirname });
       new log('error 404 detected for ' + req.url);
     })
