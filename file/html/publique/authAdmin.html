@@ -17,23 +17,23 @@
           return null;
         }
         
-        // Usage
-        const shortLived = getCookie('oneSessionID');
-        console.log(shortLived)
+       // Usage
+       // const shortLived = getCookie('oneSessionID');
+       // console.log(shortLived)
 
-        const a = async () => {
-          const result = await fetch('/api/linux', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({cmd: 'ls'})
-          })
-          const data = await result.json()
-          console.log(data)
-        }
+       // const a = async () => {
+       //   const result = await fetch('/api/linux', {
+       //     method: 'POST',
+       //     headers: {
+       //       'Content-Type': 'application/json'
+       //     },
+       //     body: JSON.stringify({cmd: 'ls'})
+       //   })
+       //   const data = await result.json()
+       //   console.log(data)
+       // }
 
-        a()
+       // a()
     </script>
 </body>
 </html>
