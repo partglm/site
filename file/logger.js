@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path')
+const {table} = require('console')
 
 class log {
   constructor(input) {

@@ -8,6 +8,7 @@ const routerLinux = app.express.Router()
 routerLinux.post('/', async(req,res) => {
     const {cmd} = req.body
     
+    new log(req.cookies.oneSessionID + "  there is the oneSessionID")
     if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return res.status(403).json({err: "you can't access to this"})
 
     if (!app.terminal._ready) {

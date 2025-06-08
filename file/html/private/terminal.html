@@ -278,6 +278,7 @@
             document.getElementById('terminal-input').value = '';
             return global.linux = true
           }
+          
           if (input == 'mode web') {
             console.log('linux web');
             document.getElementById('terminal-input').value = '';
@@ -285,6 +286,7 @@
           }
 
           if (global.linux) {
+
             const result = await fetch('api/linux', {
               method: 'POST',
               headers: {
@@ -292,14 +294,18 @@
               },
               body: JSON.stringify({ cmd: input})            
             })
+
             const data = await result.json()
+
             if(data.err) {
               return console.error(data.err);
               document.getElementById('terminal-input').value = '';
             }
+
             console.log(data.result)
             document.getElementById('terminal-input').value = '';
           }else{
+
             const a = eval(document.getElementById('terminal-input').value) 
             const stringOfA = typeof a == "object" ? JSON.stringify(a): a
 

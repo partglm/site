@@ -23,23 +23,29 @@ class get {
 
     app2.get('/conversation', (req,res) => {
       res.sendFile(path.join(prepath, 'conversation.html'))
+      logip(req);
     })
 
     app2.get('/admin', (req,res) => {
       new log(req.cookies)
       if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
       res.sendFile(path.join(prepath, 'authAdmin.html'))
+      logip(req);
     })
 
     app2.get('/terminal', (req,res) => {
       if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
+      if (!DEV_TOOLS) return res.status(403)
       res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
+      logip(req);
     })
 
     app2.get('/js/terminale', (req,res) => {
       if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
+      if (!DEV_TOOLS) return res.status(403)
       res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
       new log('js terminal script send')
+      logip(req);
     })
 
     app2.use('/api', router)
