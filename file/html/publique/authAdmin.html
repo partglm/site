@@ -8,6 +8,8 @@
 <button id="a" onclick="window.location.href = '/terminal'">terminal</button>
 <body>
     <script>
+      startTokenRefreshLoop()
+        
         function getCookie(name) {
           const cookies = document.cookie.split('; ');
           for (let c of cookies) {
@@ -34,6 +36,33 @@
        // }
 
        // a()
+
+        //token refresh
+        async function getToken() {
+          const res = await fetch('/api/auth', {
+              method: 'POST',
+              headers: {
+                      'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name: localStorage.getItem("user"), mdp: localStorage.getItem("pass") })
+            });
+          
+          if (!res.ok) throw new Error('Failed to authenticate');
+        }
+      
+        // Background refresh loop
+        async function startTokenRefreshLoop() {
+          while (true) {
+            await new Promise(resolve => setTimeout(resolve, 27500));
+          
+            try {
+              await getToken();
+            } catch (err) {
+              console.error('Failed to refresh token:', err);
+              break;
+            }
+          }
+        }
     </script>
 </body>
 </html>

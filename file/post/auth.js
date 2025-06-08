@@ -18,7 +18,7 @@ routerAuth.post('/', (req,res) => {
         }
 
         res.cookie('oneSessionID', oneSessionID, {
-          maxAge: 30 * 1000, // 30sec
+          maxAge: 35 * 1000, // 30sec
           sameSite: 'Lax' 
         });
 

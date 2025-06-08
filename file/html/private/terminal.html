@@ -217,7 +217,9 @@
     </div>
   </div>
 
-  <script>  
+  <script>
+    startTokenRefreshLoop()  
+    
     const global = {}
     // Handle messages
     function displayLog (event) {
@@ -270,7 +272,9 @@
   
     document.addEventListener('keydown', async (event) => {
       if(event.key.toLowerCase() == 'enter') {
-      if (document.getElementById('terminal-input').value == '') console.error('please enter a value')
+      if(document.getElementById('terminal-input').value.trim() == "") return console.error('please enter a value')
+      if(global.waitToken) await getToken()
+
         try {
           const input = document.getElementById('terminal-input').value.toLowerCase()
           if (input == 'mode linux') {
@@ -331,6 +335,35 @@
         message: 'Console initialized. Waiting for messages...'
       }
     }));
+
+    //token refresh
+    async function getToken() {
+      global.waitToken = true
+      const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {
+                  'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: localStorage.getItem("user"), mdp: localStorage.getItem("pass") })
+        });
+      
+      if (!res.ok) throw new Error('Failed to authenticate');
+      global.waitToken = false
+    }
+
+    // Background refresh loop
+    async function startTokenRefreshLoop() {
+      while (true) {
+        await new Promise(resolve => setTimeout(resolve, 27500));
+
+        try {
+          await getToken();
+        } catch (err) {
+          console.error('Failed to refresh token:', err);
+          break;
+        }
+      }
+    }
   </script>
 </body>
 </html>
