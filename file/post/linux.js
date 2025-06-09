@@ -16,6 +16,8 @@ routerLinux.post('/', async(req,res) => {
     }
     new log("acces granted to the terminal")
 
+    if (cmd == 'npm stop') {new Error('process aborted'); process.abort()}
+
     const result = await app.terminal.runCommand(cmd)
     if(!result) {
         return res.status(200).json({result: true})

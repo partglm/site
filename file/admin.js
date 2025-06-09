@@ -26,12 +26,16 @@ class ADMIN extends auth {
         const index = Math.floor(Math.random() * caracteres.length);
         resultat += caracteres[index];
       }
+      oneSessionIDlist.forEach((id, index) => {
+        oneSessionIDlist[index] = null
+      })
       oneSessionIDlist.push(resultat)
       return resultat;
     }
 
     static oneSessionIDauth (ID) {
       if(new auth(key.user, key.mdp).authentication()!= 'ADMIN') return 'you need to be an admin to do that'
+      if(ID == null) return false
 
       if (oneSessionIDlist.includes(ID)) return true
       return false
