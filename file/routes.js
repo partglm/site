@@ -52,7 +52,7 @@ class get {
       const blacklist = ['/.well-known/appspecific/com.chrome.devtools.json']
       if (blacklist.includes(req.url)) return
 
-      res.status(404).sendFile('img/featured_404.jpg', { root: __dirname });
+      res.status(404).sendFile(path.join(prepath, '404.html'));
       new log('error 404 detected for ' + req.url);
     })
     

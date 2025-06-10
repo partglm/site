@@ -45,25 +45,26 @@ class ADMIN extends auth {
     static canacess (req, ...where) {
       if (this.oneSessionIDauth(req.cookies.oneSessionID) !== true) return false
 
-      const a = where.forEach(value => {
-        switch (key) {
+      let a = true
+      where.forEach(value => {
+        switch (value) {
           case 'admin_pannel':
-            if (!ADMIN_PANNEL) return false
+            if (!ADMIN_PANNEL) return a = false
             break;
 
           case 'dev_tools':
-            if (!DEV_TOOLS) return false
+            if (!DEV_TOOLS) return a = false
             break;
 
           case 'tools_terminal':
-            if (!TOOLS_TERMINAL) return false
+            if (!TOOLS_TERMINAL) return a = false
             break;
 
           default:
-            return true
+             return a = true 
         }
       })
-      
+      if (!a) new log('please activate it in the .env file: ' + a)
       return a  
     }
 }
