@@ -7,5 +7,6 @@ module.exports = {
   PORT: process.env.PORT || 8080,
   ADMIN_USER: process.env.ADMIN_USER,
   ADMIN_PASS: process.env.ADMIN_PASS,
-  ADMIN_ID: process.env.ADMIN_ID
+  ADMIN_ID: process.env.ADMIN_ID,
+  TOOLS_TERMINAL: process.env.TOOLS_TERMINAL === 'true'
 };

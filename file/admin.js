@@ -1,5 +1,6 @@
 const {log} = require('./logger')
 const {auth} = require('./auth')
+const { ADMIN_PANNEL, DEV_TOOLS, TOOLS_TERMINAL } = require('./config')
 
 const oneSessionIDlist = []
 let key = {}
@@ -39,6 +40,31 @@ class ADMIN extends auth {
 
       if (oneSessionIDlist.includes(ID)) return true
       return false
+    }
+
+    static canacess (req, ...where) {
+      if (this.oneSessionIDauth(req.cookies.oneSessionID) !== true) return false
+
+      const a = where.forEach(value => {
+        switch (key) {
+          case 'admin_pannel':
+            if (!ADMIN_PANNEL) return false
+            break;
+
+          case 'dev_tools':
+            if (!DEV_TOOLS) return false
+            break;
+
+          case 'tools_terminal':
+            if (!TOOLS_TERMINAL) return false
+            break;
+
+          default:
+            return true
+        }
+      })
+      
+      return a  
     }
 }
 

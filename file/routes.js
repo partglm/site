@@ -1,5 +1,5 @@
 const path = require('path');
-const {DEV_TOOLS, ADMIN_PANNEL}= require('./config')
+const {DEV_TOOLS, ADMIN_PANNEL, TOOLS_TERMINAL}= require('./config')
 const app = require('./app')
 const router = require('./post')
 const { log, logip } = require('./logger');
@@ -28,21 +28,19 @@ class get {
 
     app2.get('/admin', (req,res) => {
       new log(req.cookies)
-      if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
+      if (!ADMIN.canacess(req, 'admin_pannel')) return res.status(403)
       res.sendFile(path.join(prepath, 'authAdmin.html'))
       logip(req);
     })
 
     app2.get('/terminal', (req,res) => {
-      if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
-      if (!DEV_TOOLS) return res.status(403)
+      if (!ADMIN.canacess(req, 'admin_pannel', 'dev_tools', 'tools_terminal')) return res.status(403)
       res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
       logip(req);
     })
 
     app2.get('/js/terminale', (req,res) => {
-      if (!ADMIN_PANNEL || ADMIN.oneSessionIDauth(req.cookies.oneSessionID) !== true) return
-      if (!DEV_TOOLS) return res.status(403)
+      if (!ADMIN.canacess(req, 'admin_pannel', 'dev_tools', 'tools_terminal')) return res.status(403)
       res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
       new log('js terminal script send')
       logip(req);
