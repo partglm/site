@@ -1,5 +1,4 @@
 const path = require('path');
-const {DEV_TOOLS, ADMIN_PANNEL, TOOLS_TERMINAL}= require('./config')
 const app = require('./app')
 const router = require('./post')
 const { log, logip } = require('./logger');
@@ -49,7 +48,7 @@ class get {
     app2.use('/api', router)
 
     app2.use((req, res) => {
-      const blacklist = ['/.well-known/appspecific/com.chrome.devtools.json']
+      const blacklist = ['/.well-known/appspecific/com.chrome.devtools.json', '/favicon.ico']
       if (blacklist.includes(req.url)) return
 
       res.status(404).sendFile(path.join(prepath, '404.html'));
