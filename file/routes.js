@@ -26,7 +26,6 @@ class get {
     })
 
     app2.get('/admin', (req,res) => {
-      new log(req.cookies)
       if (!ADMIN.canacess(req, 'admin_pannel')) return res.status(403)
       res.sendFile(path.join(prepath, 'authAdmin.html'))
       logip(req);
@@ -38,12 +37,12 @@ class get {
       logip(req);
     })
 
-    app2.get('/js/terminale', (req,res) => {
-      if (!ADMIN.canacess(req, 'admin_pannel', 'dev_tools', 'tools_terminal')) return res.status(403)
-      res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
-      new log('js terminal script send')
-      logip(req);
-    })
+    //app2.get('/js/terminale', (req,res) => {
+    //  if (!ADMIN.canacess(req, 'admin_pannel', 'dev_tools', 'tools_terminal')) return res.status(403)
+    //  res.sendFile(path.join(__dirname, 'html', 'private', 'dev.js'))
+    //  new log('js terminal script send')
+    //  logip(req);
+    //})
 
     app2.use('/api', router)
 

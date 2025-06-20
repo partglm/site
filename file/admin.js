@@ -27,8 +27,8 @@ class ADMIN extends auth {
         const index = Math.floor(Math.random() * caracteres.length);
         resultat += caracteres[index];
       }
-      oneSessionIDlist.forEach((id, index) => {
-        oneSessionIDlist[index] = null
+      oneSessionIDlist.forEach((id) => {
+        oneSessionIDlist.pop()
       })
       oneSessionIDlist.push(resultat)
       return resultat;
@@ -64,7 +64,7 @@ class ADMIN extends auth {
              return a = true 
         }
       })
-      if (!a) new log('please activate it in the .env file: ' + a)
+      if (!a) new log('please activate it in the .env file: ' + a + " it's one of this:  " + where)
       return a  
     }
 }
