@@ -26,7 +26,7 @@ class get {
     })
 
     app2.get('/admin', (req,res) => {
-      if (!ADMIN.canacess(req, 'admin_pannel')) return res.status(403)
+      if (!ADMIN.canacess(req, 'admin_pannel')) return res.status(403).statusMessage = 'forbidenn'
       res.sendFile(path.join(prepath, 'authAdmin.html'))
       logip(req);
     })
