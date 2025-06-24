@@ -34,19 +34,13 @@ class ADMIN extends auth {
       return resultat;
     }
 
-    static oneSessionIDauth (ID) {
-      if(new auth(key.user, key.mdp).authentication()!= 'ADMIN') return 'you need to be an admin to do that'
-      if(ID == null) return false
-
-      if (oneSessionIDlist.includes(ID)) return true
-      return false
-    }
-
     static canacess (req, ...where) {
-      if (oneSessionIDlist.includes(ID)) return false
+      if (!oneSessionIDlist.includes(req.cookies.oneSessionID)) return false
 
       let a = true
       where.forEach(value => {
+        if (!ADMIN_PANNEL) return a = false
+
         switch (value) {
           case 'admin_pannel':
             if (!ADMIN_PANNEL) return a = false
