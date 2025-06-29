@@ -54,6 +54,10 @@ class ADMIN extends auth {
             if (!TOOLS_TERMINAL) return a = false
             break;
 
+          case 'conv_admin':
+            if (!CONV_ADMIN) return a = false
+            break;
+
           default:
              return a = true 
         }

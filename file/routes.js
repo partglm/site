@@ -26,13 +26,20 @@ class get {
     })
 
     app2.get('/admin', (req,res) => {
-      if (!ADMIN.canacess(req, 'admin_pannel')) return res.status(403).statusMessage = 'forbidenn'
+      if (ADMIN.canacess(req)) return res.status(403).statusMessage = 'forbidenn'
       res.sendFile(path.join(prepath, 'authAdmin.html'))
       logip(req);
     })
 
+      app2.get('/admin/conv', (req,res) => {
+        if (ADMIN.canacess(req, 'conv_admin')) return res.status(403).statusMessage = 'forbidenn'
+        res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
+        logip(req);
+      })
+
+
     app2.get('/terminal', (req,res) => {
-      if (!ADMIN.canacess(req, 'admin_pannel', 'dev_tools', 'tools_terminal')) return res.status(403)
+      if (ADMIN.canacess(req, 'dev_tools', 'tools_terminal')) return res.status(403).statusMessage = 'forbidenn'
       res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
       logip(req);
     })

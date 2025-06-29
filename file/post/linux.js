@@ -7,7 +7,7 @@ const routerLinux = app.express.Router()
 routerLinux.post('/', async(req,res) => {
     const {cmd} = req.body
 
-    if (!ADMIN.canacess(req, 'admin_pannel')) return res.status(403).json({err: "you can't access to this"})
+    if (!ADMIN.canacess(req)) return res.status(403).json({err: "you can't access to this"})
 
     if (!app.terminal._ready) {
         return res.status(401).json({err: 'please wait a few second'})
