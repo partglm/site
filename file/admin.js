@@ -1,6 +1,6 @@
 const {log} = require('./logger')
 const {auth} = require('./auth')
-const { ADMIN_PANNEL, DEV_TOOLS, TOOLS_TERMINAL } = require('./config')
+const { ADMIN_PANNEL, DEV_TOOLS, TOOLS_TERMINAL, CONV_ADMIN } = require('./config')
 
 const oneSessionIDlist = []
 let key = {}

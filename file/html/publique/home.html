@@ -592,8 +592,9 @@
         //display an error if there is in the url
         const ErrParameters = new URLSearchParams(window.location.search)
         const errParameters = ErrParameters.get('/err')
-
-        if (errParameters) ErrorAuth(errParameters)
+        if (!errParameters) return 
+        
+        ErrorAuth(errParameters)
         console.log(errParameters)
     }
     onStart()
@@ -632,6 +633,16 @@
         localStorage.setItem("user",name)
         localStorage.setItem("pass",mdp)
         accountloaded = name
+
+        console.log('auth User OK')
+    }
+
+    function securitynum0 (data, mdp) {
+        console.log('security num 0', data);
+        window.location.href = data.message;
+
+        localStorage.setItem("user", data.name)
+        localStorage.setItem("pass", mdp)
     }
 
     async function OnConnectLogIN (name=PSE.value, mdp=MDP.value) {
@@ -646,7 +657,7 @@
             const data = await response.json();
             if (!response.ok) return alert(JSON.stringify(data.message, null, 2));
             
-            if (data.securitynum == 0) {authUserOK(data.name, mdp); window.location.href = data.message}
+            if (data.securitynum == 0) return securitynum0(data, mdp)
             if (data.securitynum == 1) authUserOK(data.name, mdp)
             if (data.securitynum == 2) return ErrorAuth(data.message);
 
