@@ -12,7 +12,7 @@ routersendMessage.post('/', async (req,res) => {
     const ch = new chat(req.body.msg, req.body.who, req.body.conv)
 
     const content = await ch.sendMessage()
-    new logChat(req.body.msg, req.body.who)
+    new logChat(req.body.msg, req.body.who, req.body.conv)
 
     const conv = req.body.conv
     TEMPcontent[conv] = content

@@ -12,11 +12,11 @@ class log {
 }
 
 class logChat extends log {
-  constructor (message, who) {
-    super(`${message} send by ${who}`)
+  constructor (message, who, where) {
+    super(`${message} send by ${who} in ${where}`)
     
     const timestamp = new Date().toLocaleString();
-    const logEntry = `[${timestamp}]: ${message} send by ${who}`;
+    const logEntry = `[${timestamp}]: ${message} send by ${who} in ${where}`;
     fs.appendFileSync(path.join(__dirname, 'data/chat.txt'), `${logEntry}\n`, 'utf8');
   }
 }
