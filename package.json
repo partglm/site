@@ -17,6 +17,7 @@
   "version": "1.0.0",
   "main": "MAIN.js",
   "scripts": {
+    "postinstall": "node setup.js",
     "test": "node MAIN.js --no-start --no-log",
     "debug": "node MAIN.js",
     "start": "node MAIN.js --no-log",
