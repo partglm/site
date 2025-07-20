@@ -18,9 +18,12 @@
   "main": "MAIN.js",
   "scripts": {
     "postinstall": "node setup.js",
+
     "test": "node MAIN.js --no-start --no-log",
+
     "debug": "node MAIN.js",
     "start": "node MAIN.js --no-log",
+    
     "restart": "fuser -k 8080/tcp || true || true && npm run start",
     "restartdev": "fuser -k 8080/tcp || true && npm run debug"
   },

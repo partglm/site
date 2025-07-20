@@ -33,7 +33,6 @@ const keyOfEnv = [
 ]
 
 for (obj in keyOfEnv) {
-    if ()
 
     rl.question(obj.name, (answer) => {
         if (!typeof answer == obj.res) {
@@ -49,5 +48,8 @@ for (obj in keyOfEnv) {
         if (answer == 'no') answer = false
 
         new env('.env').majOfEnv(obj.key, answer)
+
     });
 }
+
+rl.close()
