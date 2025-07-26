@@ -1,55 +1,67 @@
 const fs = require('fs');
-const path = require('path');
 const readline = require('readline');
+const path = require('path');
 
-class env {
-    constructor(file) {
-        this.file = file
-    }
+const envFilePath = path.join(__dirname, '.env');
 
-    async majOfEnv (key, value) {
-        const string = `${key}=${value}`
-        const result = await fs.promises.appendFile(this.file, string)
-    }
-}
+const questions = [
+  { key: 'ADMIN_PASS', name: 'Password of the admin account', res: 'string' },
+  { key: 'ADMIN_USER', name: 'User of the admin account', res: 'string' },
+  { key: 'PORT', name: 'Port of the application', res: 'number' },
+  { key: 'EULA', name: 'Do you agree with the EULA? (yes/no)', res: 'boolean' },
+  { key: 'CONV_ADMIN', name: 'Enable conversation tools for admin? (yes/no)', res: 'boolean' },
+  { key: 'ADMIN_PANNEL', name: 'Enable the admin panel? (yes/no)', res: 'boolean' },
+  { key: 'DEV_TOOLS', name: 'Enable the dev tools? (yes/no)', res: 'boolean' },
+  { key: 'TOOLS_TERMINAL', name: 'Enable the terminal tools? (yes/no)', res: 'boolean' },
+];
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
+async function askQuestion (q) {
+  return new Promise((resolve) => {
+    rl.question(`${q.name}: `, (answer) => {
+      let value = answer;
 
+      if (q.res === 'number') {
+        const parsed = parseInt(answer);
+        if (isNaN(parsed)) return resolve(askQuestion(q));
+        value = parsed;
+      }
 
-const keyOfEnv = [
-    {key: 'ADMIN_PASS', name: 'password of the admin account', res: 'string'},
-    {key: 'ADMIN_USER', name: 'user of the admin account', res: 'string'},
-    {key: 'PORT', name: 'the port of the application', res: 'number'},
-
-    {key: 'EULA', name: 'do you agree with the EULA ?', res: 'boolean'},
-    {key: 'CONV_ADMIN', name: 'unable the conversation tools for admin', res: 'boolean'},
-    {key: 'ADMIN_PANNEL', name: 'unable the admin pannel', res: 'boolean'},
-    {key: 'DEV_TOOLS', name: 'unable the dev tools', res: 'boolean'},
-    {key: 'TOOLS_TERMINAL', name: 'unable the terminal tools', res: 'boolean'},
-]
-
-for (obj in keyOfEnv) {
-
-    rl.question(obj.name, (answer) => {
-        if (!typeof answer == obj.res) {
-            if (!obj.res == 'boolean') {
-                if (!(answer == 'yes' || answer == 'no')) {
-
-                    return console.log('the response is not the right type')
-                }
-            }
+      if (q.res === 'boolean') {
+        const normalized = answer.toLowerCase();
+        if (['yes', 'y', 'true'].includes(normalized)) {
+          value = 'true';
+        } else if (['no', 'n', 'false'].includes(normalized)) {
+          value = 'false';
+        } else {
+          console.log('Please answer yes or no.');
+          return resolve(askQuestion(q));
         }
+      }
 
-        if (answer == 'yes') answer = true
-        if (answer == 'no') answer = false
-
-        new env('.env').majOfEnv(obj.key, answer)
-
+      resolve({ key: q.key, value: String(value) });
     });
-}
+  });
+};
 
-rl.close()
+(async () => {
+  console.log('Configuring your .env file...\n');
+
+  const results = [];
+
+  for (const q of questions) {
+    const res = await askQuestion(q);
+    results.push(res);
+  }
+
+  const envContent = results.map(entry => `${entry.key}=${entry.value}`).join('\n');
+
+  fs.writeFileSync(envFilePath, envContent, { encoding: 'utf8' });
+
+  console.log('\n✅ .env file created successfully');
+  rl.close();
+})();
