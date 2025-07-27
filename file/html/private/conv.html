@@ -51,6 +51,16 @@
             max-width: 85%;
             position: relative;
             margin-right: auto; /* Tous les messages à gauche */
+            transition: all 0.2s ease;
+        }
+
+        .message:hover {
+            transform: translateX(2px);
+        }
+
+        .message:hover .delete-btn {
+            opacity: 1;
+            visibility: visible;
         }
         
         .message-content {
@@ -82,6 +92,36 @@
             margin-bottom: 5px;
             font-size: 0.9em;
             color: #ffffff;
+        }
+
+        /* Delete button styles */
+        .delete-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #f48771; /* VS Code error red */
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #d73a49; /* Darker red on hover */
+            transform: scale(1.1);
+        }
+
+        .delete-btn:active {
+            transform: scale(0.95);
         }
         
         .input-container {
@@ -157,15 +197,22 @@
     </div>
 
     <script>
+        // Fonction de suppression
+        function deleteMessage(messageId) {
+            document.getElementById(messageId).remove()
+        }
 
+
+        let idCounter = 0
         // Fonction pour afficher la conversation complète
         function displayconv(messages) {
             const container = document.getElementById('conversation-container');
             container.innerHTML = ''; // Vider le conteneur
             
             // Parcourir tous les messages (en ordre inverse pour l'affichage de bas en haut)
+            idCounter++
             messages.forEach(message => {
-                appendMessageToUI(message);
+                appendMessageToUI(message, idCounter);
             });
 
             const NAME = document.getElementById('aaaNAME');
@@ -174,12 +221,13 @@
 
         // Fonction pour ajouter un seul message à la conversation
         function appendATconv(message) {
-            appendMessageToUI(message);
+            idCounter++
+            appendMessageToUI(message, idCounter);
             scrollToBottom();
         }
 
         // Fonction utilitaire pour ajouter un message à l'interface
-        function appendMessageToUI(message) {
+        function appendMessageToUI(message, id) {
             const container = document.getElementById('conversation-container');
             
             // Créer un élément pour le message
@@ -200,6 +248,9 @@
             
             // Ajouter l'horodatage
             messageHTML += `<span class="message-time">${message.when}</span>`;
+            
+            // Ajouter le bouton de suppression
+            messageHTML += `<button class="delete-btn" onclick="deleteMessage(${id})">×</button>`;
             
             // Définir le HTML du message
             messageElement.innerHTML = messageHTML;

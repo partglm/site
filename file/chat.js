@@ -24,11 +24,11 @@ class chat {
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1), )
     }
 
-    async deleteMessage (message, time, who) {
+    async deleteMessage (time) {
         const content = await fs.promises.readFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`))
         const JSONfile = JSON.parse(content)
 
-        const index = JSONfile.content.findIndex(ms => ms.msg == message && ms.when == time && ms.by == who)
+        const index = JSONfile.content.findIndex(ms => ms.msg == this.message && ms.when == time && ms.by == this.who)
 
         if (index !== -1) {
           JSONfile.content.splice(index, 1);
