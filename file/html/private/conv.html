@@ -198,8 +198,19 @@
 
     <script>
         // Fonction de suppression
-        function deleteMessage(messageId) {
+        async function deleteMessage(messageId) {
+            const message = idObject[messageId]
+            
             document.getElementById(messageId).remove()
+
+            const result = await fetch('/api/deleteMessage', {
+                method: 'POST',
+                headers: {
+                        'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message.msg , who: message.by , conv: new URLSearchParams(window.location.search).get('conv'),
+                    time: message.when})
+            })
         }
 
 
@@ -226,6 +237,7 @@
             scrollToBottom();
         }
 
+        const idObject = {}
         // Fonction utilitaire pour ajouter un message à l'interface
         function appendMessageToUI(message, id) {
             const container = document.getElementById('conversation-container');
@@ -236,6 +248,7 @@
             // Déterminer si le message est envoyé ou reçu
             const isReceived = message.by === localStorage.getItem('user');
             messageElement.className = `message ${isReceived ? 'received' : 'sent'}`;
+            messageElement.id = id
             
             // Créer le contenu du message
             let messageHTML = '';
@@ -251,7 +264,7 @@
             
             // Ajouter le bouton de suppression
             messageHTML += `<button class="delete-btn" onclick="deleteMessage(${id})">×</button>`;
-            
+            idObject[id] = message
             // Définir le HTML du message
             messageElement.innerHTML = messageHTML;
             

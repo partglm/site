@@ -1,3 +1,4 @@
+const {log} = require('./logger')
 const fs = require('fs')
 const path = require('path')
 
@@ -34,6 +35,7 @@ class chat {
           JSONfile.content.splice(index, 1);
         }
 
+        new log('deleting message: ' + this.message + ' by: ' + this.who)
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1))
     }
 }

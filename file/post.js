@@ -10,9 +10,9 @@ const routergetMessage = require('./post/send_get:Message').get
 const routercreateCONV = require('./post/createCONV')
 const routerconvacess = require('./post/convaccess')
 const routerLinux = require('./post/linux')
+const routerDeleteMessage = require('./post/deleteMessage')
 
 const router = app.express.Router()
-new log("router post loaded")
 
 router.use('/getconv', routergetConv)
 router.use('/auth', routerAuth)
@@ -23,5 +23,9 @@ router.use('/sendMessage', routersendMessage)
 router.use('/createCONV', routercreateCONV)
 router.use('/convAcess', routerconvacess)
 router.use('/linux', routerLinux)
+router.use('/deleteMessage', routerDeleteMessage)
+
+
+new log("router post loaded")
 
 module.exports = router
