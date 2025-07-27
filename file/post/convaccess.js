@@ -12,8 +12,8 @@ routerconvacess.post('/', async (req,res) => {
         new log("the user:  " + req.body.user + " can't access to the conversation: " + req.body.name + " error code: " + authorisation)
     }
     
-    if (authorisation) res.json({res: false})
-    if (!authorisation) res.json({res: true})
+    if (authorisation) res.json({res: true})
+    if (!authorisation) res.json({res: false})
 })
 
 module.exports = routerconvacess

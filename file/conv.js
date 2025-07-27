@@ -61,7 +61,7 @@ class conversation extends auth{
         const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${ADMIN_USER}.json`))
         const contentFile = JSON.parse(contentFilebrut)
 
-        contentFile.listconv.push({"name": nameOFtheConv, "href": `/conversation/?conv=${nameOFtheConv}&user=${ADMIN_USER}`})
+        contentFile.listconv.push({"name": nameOFtheConv, "href": `/admin/conv/?conv=${nameOFtheConv}&user=${ADMIN_USER}`})
 
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'whoparticipewhere', `${ADMIN_USER}.json`), JSON.stringify(contentFile, null, 2))
         
