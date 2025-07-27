@@ -34,7 +34,7 @@ class chat {
           JSONfile.content.splice(index, 1);
         }
 
-        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1), )
+        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1))
     }
 }
 

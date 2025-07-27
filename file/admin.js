@@ -34,6 +34,11 @@ class ADMIN extends auth {
       return resultat;
     }
 
+    static auth (req) {
+      if (!oneSessionIDlist.includes(req.cookies.oneSessionID)) return false
+      return true 
+    }
+
     static canacess (req, ...where) {
       if (!oneSessionIDlist.includes(req.cookies.oneSessionID)) return false
 
@@ -59,7 +64,7 @@ class ADMIN extends auth {
             break;
 
           default:
-             return a = true 
+            if (!a) return a = true 
         }
       })
       if (!a) new log('please activate it in the .env file: ' + a + " it's one of this:  " + where)

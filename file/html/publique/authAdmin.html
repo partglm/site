@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <button id="a" onclick="window.location.href = '/terminal'">terminal</button>
-<button id="a" onclick="window.location.href = '/admin/conv'">conversation</button>
+<div id="listconv"></div>
+
 <body>
     <script>
       startTokenRefreshLoop()
@@ -19,6 +20,16 @@
           }
           return null;
         }
+
+        (async function() {
+          const result = await fetch('/api/getconv', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cmd: 'ls'})
+          })
+        })()
         
        // Usage
        // const shortLived = getCookie('oneSessionID');

@@ -56,7 +56,6 @@ class get {
 
     app2.get('/favicon.ico', (req,res) => {
       res.sendFile(path.join(prepath, 'favicon.ico'))
-      new log('icon envoyé')
     })
 
     app2.use((req, res) => {

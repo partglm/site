@@ -2,6 +2,7 @@ const fs = require('fs')
 const {auth} = require('./auth')
 const path = require('path')
 const { log, logChat } = require('./logger')
+const { ADMIN_USER } = require('./config')
 
 class conversation extends auth{
     constructor(user, mdp) {
@@ -50,11 +51,20 @@ class conversation extends auth{
         
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${nameOFtheConv}.json`), JSON.stringify(JSONstring, null, 2))
 
+        //add to the user account
         const participationBrut = await this.readWhoparticipewhere()
         participationBrut.listconv.push({"name": nameOFtheConv, "href": `/conversation/?conv=${nameOFtheConv}&user=${this.user}`})
 
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'whoparticipewhere', `${this.user}.json`), JSON.stringify(participationBrut, null, 2))
 
+        //add to the admin account
+        const contentFilebrut = await fs.promises.readFile(path.join(__dirname, 'data','conversation','whoparticipewhere', `${ADMIN_USER}.json`))
+        const contentFile = JSON.parse(contentFilebrut)
+
+        contentFile.listconv.push({"name": nameOFtheConv, "href": `/conversation/?conv=${nameOFtheConv}&user=${ADMIN_USER}`})
+
+        await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'whoparticipewhere', `${ADMIN_USER}.json`), JSON.stringify(contentFile, null, 2))
+        
         return 'good'
     } 
 }

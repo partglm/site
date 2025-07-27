@@ -20,6 +20,7 @@ class DockerManager {
     });
 
     await this.container.start();
+    new log('container started')
   }
 
   async ensureReady() {
