@@ -26,6 +26,10 @@ class SocketManager {
     toALL(message, id) {
         this.io.emit("isThisYou?", {message, id});
     }
+
+    toALLDelete (obj) {
+        this.io.emit('thisyoudelete', obj)
+    }
 }
 
 module.exports = SocketManager;

@@ -157,15 +157,16 @@
     </div>
 
     <script>
-
+        let idCounter = 0
         // Fonction pour afficher la conversation complète
         function displayconv(messages) {
             const container = document.getElementById('conversation-container');
             container.innerHTML = ''; // Vider le conteneur
             
             // Parcourir tous les messages (en ordre inverse pour l'affichage de bas en haut)
+            idCounter++
             messages.forEach(message => {
-                appendMessageToUI(message);
+                appendMessageToUI(message, idCounter);
             });
 
             const NAME = document.getElementById('aaaNAME');
@@ -174,12 +175,13 @@
 
         // Fonction pour ajouter un seul message à la conversation
         function appendATconv(message) {
-            appendMessageToUI(message);
+            idCounter++
+            appendMessageToUI(message, idCounter);
             scrollToBottom();
         }
 
         // Fonction utilitaire pour ajouter un message à l'interface
-        function appendMessageToUI(message) {
+        function appendMessageToUI(message, id) {
             const container = document.getElementById('conversation-container');
             
             // Créer un élément pour le message
@@ -188,6 +190,7 @@
             // Déterminer si le message est envoyé ou reçu
             const isReceived = message.by === localStorage.getItem('user');
             messageElement.className = `message ${isReceived ? 'received' : 'sent'}`;
+            messageElement.id = id
             
             // Créer le contenu du message
             let messageHTML = '';
@@ -276,6 +279,12 @@
             appendATconv(data.content);
         });
         
+        socket.on('thisyoudelete', ({conv, id}) => {
+            if ((new URLSearchParams(window.location.search).get('conv')) !== conv) return 
+
+            document.getElementById(id).remove()
+        })
+
         document.getElementById('btnIN').addEventListener('click', sendMessage);
         document.getElementById('textIN').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {

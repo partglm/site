@@ -201,7 +201,7 @@
         async function deleteMessage(messageId) {
             const message = idObject[messageId]
             
-            document.getElementById(messageId).remove()
+            //document.getElementById(messageId).remove() already remove (cannot remove something already removed)
 
             const result = await fetch('/api/deleteMessage', {
                 method: 'POST',
@@ -209,7 +209,7 @@
                         'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ message: message.msg , who: message.by , conv: new URLSearchParams(window.location.search).get('conv'),
-                    time: message.when})
+                    time: message.when, id: messageId})
             })
         }
 
@@ -340,6 +340,13 @@
             appendATconv(data.content);
         });
         
+        socket.on('thisyoudelete', ({conv, id}) => {
+            if ((new URLSearchParams(window.location.search).get('conv')) !== conv) return 
+
+            document.getElementById(id).remove()
+        })
+
+
         document.getElementById('btnIN').addEventListener('click', sendMessage);
         document.getElementById('textIN').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -369,6 +376,34 @@
             // Vider le champ de texte après l'envoi
             textInput.value = '';
             textInput.focus();
+        }
+
+        startTokenRefreshLoop()
+        async function getToken() {
+          const res = await fetch('/api/auth', {
+              method: 'POST',
+              headers: {
+                      'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name: localStorage.getItem("user"), mdp: localStorage.getItem("pass") })
+            });
+          
+          if (!res.ok) throw new Error('Failed to authenticate');
+        }
+      
+        // Background refresh loop
+        async function startTokenRefreshLoop() {
+          
+          while (true) {
+            await new Promise(resolve => setTimeout(resolve, 27500));
+          
+            try {
+              await getToken();
+            } catch (err) {
+              console.error('Failed to refresh token:', err);
+              break;
+            }
+          }
         }
     </script>
 </body>

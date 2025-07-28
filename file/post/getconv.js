@@ -7,8 +7,8 @@ const { ADMIN_USER, ADMIN_PASS } = require('../config')
 const routergetConv = app.express.Router()
 
 routergetConv.post('/', async (req,res) => {
-    const {nameBody, mdpBody} = req.body
-    let name, mdp;
+    let {name, mdp} = req.body 
+
     if (ADMIN.canacess(req)) {name = ADMIN_USER; mdp = ADMIN_PASS}
 
     const conversationClass = new conversation(name, mdp)
