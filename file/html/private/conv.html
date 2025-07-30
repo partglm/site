@@ -221,8 +221,8 @@
             container.innerHTML = ''; // Vider le conteneur
             
             // Parcourir tous les messages (en ordre inverse pour l'affichage de bas en haut)
-            idCounter++
             messages.forEach(message => {
+                idCounter++
                 appendMessageToUI(message, idCounter);
             });
 
