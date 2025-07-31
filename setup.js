@@ -4,6 +4,8 @@ const path = require('path');
 
 const envFilePath = path.join(__dirname, '.env');
 
+if (fs.existsSync('.env')) return 
+
 const questions = [
   { key: 'ADMIN_PASS', name: 'Password of the admin account', res: 'string' },
   { key: 'ADMIN_USER', name: 'User of the admin account', res: 'string' },
@@ -49,7 +51,7 @@ async function askQuestion (q) {
 };
 
 (async () => {
-  console.log('Configuring your .env file...\n');
+  console.log('Configuring your .env file backend...\n');
 
   const results = [];
 

@@ -3,7 +3,6 @@
     "body-parser": "^1.20.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dockerode": "^4.0.6",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
@@ -17,13 +16,10 @@
   "version": "1.0.0",
   "main": "MAIN.js",
   "scripts": {
-    "postinstall": "node setup.js",
-
+    "postinstall": "node setup.js && cd ../frontend/ && node setup.js",
     "test": "node MAIN.js --no-start --no-log",
-
     "debug": "node MAIN.js",
     "start": "node MAIN.js --no-log",
-    
     "restart": "fuser -k 8080/tcp || true || true && npm run start",
     "restartdev": "fuser -k 8080/tcp || true && npm run debug"
   },

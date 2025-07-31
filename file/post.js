@@ -14,18 +14,23 @@ const routerDeleteMessage = require('./post/deleteMessage')
 
 const router = app.express.Router()
 
-router.use('/getconv', routergetConv)
-router.use('/auth', routerAuth)
-router.use('/register', registerRouter)
-router.use('/getContentConv', routergetContentConv)
-router.use('/getMessage', routergetMessage)
-router.use('/sendMessage', routersendMessage)
-router.use('/createCONV', routercreateCONV)
-router.use('/convAcess', routerconvacess)
-router.use('/linux', routerLinux)
-router.use('/deleteMessage', routerDeleteMessage)
+class post {
+    constructor() {
+        router.use('/getconv', routergetConv)
+        router.use('/auth', routerAuth)
+        router.use('/register', registerRouter)
+        router.use('/getContentConv', routergetContentConv)
+        router.use('/getMessage', routergetMessage)
+        router.use('/sendMessage', routersendMessage)
+        router.use('/createCONV', routercreateCONV)
+        router.use('/convAcess', routerconvacess)
+        router.use('/linux', routerLinux)
+        router.use('/deleteMessage', routerDeleteMessage)
 
+        app.app.use('/api', router)
+        
+        new log("router post loaded")
+    }
+}
 
-new log("router post loaded")
-
-module.exports = router
+module.exports = post
