@@ -2,17 +2,11 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const envFilePath = path.join(__dirname, '.env');
+const envFilePath = path.join(__dirname, '.front.env');
 
 const questions = [
-  { key: 'ADMIN_PASS', name: 'Password of the admin account', res: 'string' },
-  { key: 'ADMIN_USER', name: 'User of the admin account', res: 'string' },
   { key: 'PORT', name: 'Port of the application', res: 'number' },
-  { key: 'EULA', name: 'Do you agree with the EULA? (yes/no)', res: 'boolean' },
-  { key: 'CONV_ADMIN', name: 'Enable conversation tools for admin? (yes/no)', res: 'boolean' },
-  { key: 'ADMIN_PANNEL', name: 'Enable the admin panel? (yes/no)', res: 'boolean' },
-  { key: 'DEV_TOOLS', name: 'Enable the dev tools? (yes/no)', res: 'boolean' },
-  { key: 'TOOLS_TERMINAL', name: 'Enable the terminal tools? (yes/no)', res: 'boolean' },
+  { key: 'EULA', name: 'Do you agree with the EULA? (yes/no)', res: 'boolean' }
 ];
 
 const rl = readline.createInterface({

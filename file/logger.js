@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path')
-const {table} = require('console')
 
 class log {
   constructor(input) {
@@ -23,7 +22,7 @@ function logEvent(message) {
 
   const timestamp = new Date().toLocaleString();
   const logEntry = `[${timestamp}]: ${message}`;
-  fs.appendFileSync(path.join(__dirname, 'data/data.txt'), `${logEntry}\n`, 'utf8');
+  fs.appendFileSync(path.join(__dirname, '../data/data.txt'), `${logEntry}\n`, 'utf8');
   console.log(logEntry);
 }
 

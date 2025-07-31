@@ -24,8 +24,8 @@
     "test": "node MAIN.js --no-start --no-log",
     "debug": "node MAIN.js",
     "start": "node MAIN.js --no-log",
-    "restart": "fuser -k 8080/tcp || true || true && fuser -k 8081/tcp || true && npm run start",
-    "restartdev": "fuser -k 8080/tcp || true && fuser -k 8081/tcp || true && npm run debug"
+    "restart": "fuser -k 808/tcp || true || true && fuser -k 8081/tcp || true && npm run start",
+    "restartdev": "fuser -k 808/tcp || true && fuser -k 8081/tcp || true && npm run debug"
   },
   "author": "partglm",
   "license": "CC BY-ND 4.0",
