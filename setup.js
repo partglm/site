@@ -4,7 +4,7 @@ const path = require('path');
 
 const envFilePath = path.join(__dirname, '.env');
 
-if (fs.existsSync('.env')) return 
+if (fs.existsSync('.back.env')) return 
 
 const questions = [
   { key: 'ADMIN_PASS', name: 'Password of the admin account', res: 'string' },
