@@ -1,7 +1,0 @@
-{
-    "listconv": [
-        {"name": "testONLY", "href": "/admin/conv/?conv=testONLY&user=partglm"},
-        {"name": "testONLY2", "href": "/admin/conv/?conv=testONLY2&user=partglm"},
-        {"name": "aa", "href": "/admin/conv/?conv=aa&user=partglm"}
-    ]
-}

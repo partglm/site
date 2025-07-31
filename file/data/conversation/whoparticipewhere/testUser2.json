@@ -1,9 +1,0 @@
-{
-    "listconv": [
-        {"name": "testONLY", "href": "/conversation/?conv=testONLY&user=testUser2"},
-    {
-      "name": "aa",
-      "href": "/conversation/?conv=aa&user=testUser2"
-    }
-    ]
-}

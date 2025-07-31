@@ -20,6 +20,9 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+if(fs.existsSync('.env')) return
+//backend ?
+
 async function askQuestion (q) {
   return new Promise((resolve) => {
     rl.question(`${q.name}: `, (answer) => {

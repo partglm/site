@@ -11,29 +11,6 @@ class log {
   }
 }
 
-class logChat extends log {
-  constructor (message, who, where) {
-    super(`${message} send by ${who} in ${where}`)
-    
-    const timestamp = new Date().toLocaleString();
-    const logEntry = `[${timestamp}]: ${message} send by ${who} in ${where}`;
-    fs.appendFileSync(path.join(__dirname, 'data/chat.txt'), `${logEntry}\n`, 'utf8');
-  }
-}
-
-class logTable {
-  constructor(input) {
-    this.input = input
-
-    
-    if (process.argv.includes('--no-log'))  return
-    console.table(this.input)
-    return this.input
-  }
-}
-
-
-
 function logEvent(message) {
   if (process.argv.includes('--no-log'))  return
 
@@ -55,4 +32,4 @@ function logip(req) {
   logEvent(`Accès depuis ${clientIp} à ${req.path}`);
 }
 
-module.exports = { log, logip, logTable, logChat };
+module.exports = { log, logip };
