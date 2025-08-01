@@ -7,7 +7,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 class get {
   constructor() {
     const app2 = app.app
-    const prepath = path.join(__dirname, 'publique')
+    const prepath = path.join(__dirname, '../publique')
 
     app2.get('/', (req, res) => {
       res.sendFile(path.join(prepath, 'home.html'));
