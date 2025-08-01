@@ -2,7 +2,7 @@ const Docker = require('dockerode');
 const Stream = require('stream');
 const { log } = require('./logger');
 
-try {
+//try {
 class DockerManager {
   constructor() {
     this.docker = new Docker();
@@ -89,6 +89,6 @@ class DockerManager {
 }
 
 module.exports = DockerManager;
-}catch(err) {
-  console.warn("the docker container can't start, so this admin function has been shut down")
-}
+//}catch(err) {
+//  console.warn("the docker container can't start, so this admin function has been shut down")
+//}
