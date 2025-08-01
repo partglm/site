@@ -2,7 +2,7 @@ const fs = require('fs');
 const readline = require('readline');
 const path = require('path');
 
-const envFilePath = path.join(__dirname, '.env');
+const envFilePath = path.join(__dirname, '.back.env');
 
 if (fs.existsSync('.back.env')) return 
 
