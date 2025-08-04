@@ -7,7 +7,7 @@ class DockerManager {
   constructor() {
     this.docker = new Docker();
     this.container = null;
-    this._ready = this.init(); // auto-start init
+    this._ready = false
   }
 
   async init() {
@@ -25,12 +25,15 @@ class DockerManager {
   }
 
   async ensureReady() {
-    await this._ready;
+    await this.init()
   }
 
   async runCommand(commandIN) {
     new log('running: ' + commandIN)
-    await this.ensureReady(); // wait for init to finish
+    if (!this._ready) {
+      await this.ensureReady();
+      this._ready = true
+    }
 
     if (!this.container) {
       throw new Error('Container not initialized.');

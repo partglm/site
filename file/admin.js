@@ -39,8 +39,8 @@ class ADMIN extends auth {
       return true 
     }
 
-    static canacess (req, ...where) {
-      if (!oneSessionIDlist.includes(req.cookies.oneSessionID)) return false
+    static canacess (oneSessionID, ...where) {
+      if (!oneSessionIDlist.includes(oneSessionID)) return false
 
       let a = true
       where.forEach(value => {

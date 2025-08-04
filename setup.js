@@ -67,3 +67,17 @@ async function askQuestion (q) {
   console.log('\n✅ .env file created successfully');
   rl.close();
 })();
+
+
+fs.open('./file/data/data.txt', 'wx', (err, fd) => {
+  if (err) {
+    if (err.code === 'EEXIST') {
+      return;
+    }
+    throw err;
+  }
+
+  fs.write(fd, 'Contenu initial', (err) => {
+    if (err) throw err;
+  });
+});
