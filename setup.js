@@ -62,3 +62,27 @@ async function askQuestion (q) {
   console.log('\n✅ .env file created successfully');
   rl.close();
 })();
+
+const { mkdir, access, writeFile } = require('fs').promises;
+const { dirname, join } = require('path');
+
+async function ensureFile(file, content = '') {
+  await mkdir(dirname(file), { recursive: true });
+  try {
+    await access(file);
+  } catch (e) {
+    if (e.code === 'ENOENT') {
+      try {
+        await writeFile(file, content, { flag: 'wx' });
+      } catch (err) {
+        if (err.code !== 'EEXIST') throw err;
+      }
+    } else {
+      throw e;
+    }
+  }
+}
+(async () => {
+  const filePath = join(__dirname, 'data', 'data.txt');
+  await ensureFile(filePath, '');
+})();

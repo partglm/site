@@ -1,13 +1,18 @@
 const path = require('path');
 const app = require('./app')
 const { log, logip } = require('./logger.js');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const proxyFetchMiddleware = require('./proxy.js');
+const cookieParser = require('cookie-parser')
+
+app.app.use(cookieParser());
 
 
 class get {
   constructor() {
     const app2 = app.app
     const prepath = path.join(__dirname, '../publique')
+
+    app2.use(proxyFetchMiddleware);
 
     app2.get('/', (req, res) => {
       res.sendFile(path.join(prepath, 'home.html'));
@@ -31,7 +36,7 @@ class get {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          req,
+          oneSessionID: req.cookies.oneSessionID,
           specs // on envoie le tableau
         })
       });
@@ -66,11 +71,6 @@ class get {
     //  new log('js terminal script send')
     //  logip(req);
     //})
-
-    app2.use('/api', createProxyMiddleware({
-      target: 'http://localhost:8081',
-      changeOrigin: true,
-    }));
 
     app2.get('/favicon.ico', (req,res) => {
       res.sendFile(path.join(prepath, 'favicon.ico'))
