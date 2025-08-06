@@ -11,6 +11,7 @@ const routercreateCONV = require('./post/createCONV')
 const routerconvacess = require('./post/convaccess')
 const routerLinux = require('./post/linux')
 const routerDeleteMessage = require('./post/deleteMessage')
+const canacessfront = require('./post/canaccesfront')
 
 const router = app.express.Router()
 
@@ -26,6 +27,7 @@ class post {
         router.use('/convAcess', routerconvacess)
         router.use('/linux', routerLinux)
         router.use('/deleteMessage', routerDeleteMessage)
+        router.use('/canacessfront', canacessfront)
 
         app.app.use('/api', router)
         

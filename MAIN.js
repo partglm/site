@@ -1,6 +1,7 @@
 function startback () {
 
   const express = require('express');
+  const cookieparser = require('cookie-parser')
   const cors = require('cors')
   const {EULA, PORT} = require('./file/config');
   const {log} = require('./file/logger')
@@ -9,6 +10,7 @@ function startback () {
   const post = require('./file/post');
 
   app.use(express.json());
+  app.use(cookieparser());
   app.use(cors({methods: 'POST'}));
   new auth().load()
   new post()
