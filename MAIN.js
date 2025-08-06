@@ -5,10 +5,14 @@ const {EULA, PORT} = require('./file/config');
 const {log} = require('./file/logger.js')
 const {app, server} = require('./file/app')
 const {get} = require('./file/routes');
+const cookieParser = require('cookie-parser')
+const proxyFetchMiddleware = require('./file/proxy.js');
 
 startback()
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors({origin: `localhost:${PORT}`, methods: 'POST'}));
+app.use(proxyFetchMiddleware);
 new get()
 
 if (process.argv.includes('--no-start')) return

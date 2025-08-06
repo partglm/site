@@ -1,18 +1,12 @@
 const path = require('path');
 const app = require('./app')
 const { log, logip } = require('./logger.js');
-const proxyFetchMiddleware = require('./proxy.js');
-const cookieParser = require('cookie-parser')
-
-app.app.use(cookieParser());
 
 
 class get {
   constructor() {
     const app2 = app.app
     const prepath = path.join(__dirname, '../publique')
-
-    app2.use(proxyFetchMiddleware);
 
     app2.get('/', (req, res) => {
       res.sendFile(path.join(prepath, 'home.html'));
@@ -30,7 +24,7 @@ class get {
     })
     
     async function fetchCanAcess(req, ...specs) {
-      const result = await fetch('http://localhost:8081/api/canacessfront', {
+      const result = await fetch('http://127.0.0.1:8081/api/canacessfront', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -10,12 +10,17 @@ async function proxyFetchMiddleware(req, res, next) {
 
   const backendUrl = backendHost + req.originalUrl;
 
+
+  const newBody = JSON.stringify({
+      //oneSessionID: req.cookies?.oneSessionID || null,
+      ...req.body
+    });
+    
   try {
     const fetchOptions = {
       method: req.method,
       headers: { ...req.headers },
-      // Si la méthode a un body, on l'envoie, sinon pas
-      body: ['GET', 'HEAD'].includes(req.method) ? undefined : JSON.stringify(req.body),
+      body: newBody,
     };
 
     const backendRes = await fetch(backendUrl, fetchOptions);
