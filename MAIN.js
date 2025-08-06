@@ -11,7 +11,7 @@ function startback () {
 
   app.use(express.json());
   app.use(cookieparser());
-  app.use(cors({methods: 'POST'}));
+  app.use(cors({methods: 'POST'})); //origin: 0.0.0.0
   new auth().load()
   new post()
 
