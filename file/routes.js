@@ -48,14 +48,14 @@ class get {
 
       app2.get('/admin/conv', async  (req,res) => {
         if (!await fetchCanAcess(req, 'conv_admin')) return res.status(403).statusMessage = 'forbidenn'
-        res.sendFile(path.join(__dirname, 'html','private','conv.html'))
+        res.sendFile(path.join(__dirname, '../private','conv.html'))
         logip(req);
       })
 
 
     app2.get('/terminal', async  (req,res) => {
       if (!await fetchCanAcess(req, 'dev_tools', 'tools_terminal')) return res.status(403).statusMessage = 'forbidenn'
-      res.sendFile(path.join(__dirname, 'html','private','terminal.html'))
+      res.sendFile(path.join(__dirname, '../private','terminal.html'))
       logip(req);
     })
 
