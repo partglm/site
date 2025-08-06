@@ -32,8 +32,8 @@ async function proxyFetchMiddleware(req, res, next) {
     });
 
     res.status(backendRes.status);
-    const data = await backendRes.buffer();
-    res.send(data);
+    const buffer = Buffer.from(await backendRes.arrayBuffer());
+    res.send(buffer);
   } catch (err) {
     console.error('Proxy fetch error:', err);
     res.status(502).json({ error: 'Erreur de proxy via fetch' });
