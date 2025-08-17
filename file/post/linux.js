@@ -3,11 +3,20 @@ const app = require("../app");
 const ADMIN = require('../admin');
 const routerLinux = app.express.Router()
 
+function getCookieFromHeader(cookieHeader, cookieName) {
+  if (!cookieHeader) return null;
+  const cookies = cookieHeader.split(';').map(c => c.trim());
+  const found = cookies.find(c => c.startsWith(cookieName + '='));
+  return found ? decodeURIComponent(found.split('=')[1]) : null;
+}
 
 routerLinux.post('/', async(req,res) => {
     const {cmd} = req.body
 
-    if (!ADMIN.canacess(req)) return res.status(403).json({err: "you can't access to this"})
+    const rawCookie = req.headers.cookie;
+    const oneSessionID = getCookieFromHeader(rawCookie, 'oneSessionID');
+
+    if (!ADMIN.canacess(oneSessionID)) return res.status(403).json({err: "you can't access to this"})
 
     if (!app.terminal._ready) {
         return res.status(401).json({err: 'please wait a few second'})
