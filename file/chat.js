@@ -1,6 +1,8 @@
 const {log} = require('./logger')
 const fs = require('fs')
 const path = require('path')
+const { ADMIN_USER } = require('./config')
+const ADMIN = require('./admin')
 
 class chat {  
     constructor(message, who, conversation) {
@@ -25,7 +27,9 @@ class chat {
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1), )
     }
 
-    async deleteMessage (time) {
+    async deleteMessage (time, whowant, oneSessionID) {
+        if (whowant != (ADMIN.canacess(oneSessionID)) && this.who != whowant) return "you can't delete other message" 
+
         const content = await fs.promises.readFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`))
         const JSONfile = JSON.parse(content)
 
@@ -37,6 +41,8 @@ class chat {
 
         new log('deleting message: ' + this.message + ' by: ' + this.who)
         await fs.promises.writeFile(path.join(__dirname, 'data', 'conversation', 'content', `${this.conversation}.json`), JSON.stringify(JSONfile, null, 1))
+        
+        return 'good'
     }
 }
 
