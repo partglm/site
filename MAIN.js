@@ -1,30 +1,26 @@
-function startback () {
+const express = require('express');
+const cookieparser = require('cookie-parser')
+const cors = require('cors')
+const {EULA, PORT} = require('./file/config');
+const {log} = require('./file/logger')
+const {auth} = require('./file/auth')
+const {app, server} = require('./file/app')
+const post = require('./file/post');
 
-  const express = require('express');
-  const cookieparser = require('cookie-parser')
-  const cors = require('cors')
-  const {EULA, PORT} = require('./file/config');
-  const {log} = require('./file/logger')
-  const {auth} = require('./file/auth')
-  const {app, server} = require('./file/app')
-  const post = require('./file/post');
+app.use(express.json());
+app.use(cookieparser());
+app.use(cors({methods: 'POST'})); //origin: 0.0.0.0
+new auth().load()
+new post()
 
-  app.use(express.json());
-  app.use(cookieparser());
-  app.use(cors({methods: 'POST'})); //origin: 0.0.0.0
-  new auth().load()
-  new post()
+if (process.argv.includes('--no-start')) return
+if(EULA) {
+  server.listen(PORT, '0.0.0.0', () => {
 
-  if (process.argv.includes('--no-start')) return
-  if(EULA) {
-    server.listen(PORT, '0.0.0.0', () => {
-    new log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
-    });
-  } else {
-    throw new Error('EULA non acceptée. Serveur non démarré.');
-  }
+    if (process.argv.includes('--no-log')) console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
+      new log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
+  });
 
+} else {
+  throw new Error('EULA non acceptée. Serveur non démarré.');
 }
-//startback()
-
-module.exports = startback
