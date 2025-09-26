@@ -22,7 +22,8 @@
     "debug": "node MAIN.js",
     "start": "node MAIN.js --no-log",
     "restart": "fuser -k 8080/tcp || true || true && npm run start",
-    "restartdev": "fuser -k 8080/tcp || true && npm run debug"
+    "restartdev": "fuser -k 8080/tcp || true && npm run debug",
+    "publish": "cd ../ && pkg install.js --targets node18-win-x64 --output install.exe"
   },
   "author": "partglm",
   "license": "CC BY-ND 4.0",
