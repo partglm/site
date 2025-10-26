@@ -32,5 +32,5 @@
   },
   "author": "partglm",
   "license": "CC BY-ND 4.0",
-  "description": "there is a small social app like discord or whattsapp but with a admin pannel. this project is only for me to learn ExpressJS so if you want to use it for you and your friends or another thing please tell me at 06 47 36 80 20 or lmpart94012@icloud.com. please read the README and the license before using it. you can test it with the command: 'npm run start' if you don't want to have log and: 'npm  run debug' if you want to see what's going on with the app."
+  "description": "there is a small social app like discord or whattsapp but with a admin pannel. this project is only for me to learn ExpressJS so if you want to use it for you and your friends or another thing please tell me at 06 47 36 80 20 or lmpart94012@gmail.com. please read the README and the license before using it. you can test it with the command: 'npm run start' if you don't want to have log and: 'npm  run debug' if you want to see what's going on with the app."
 }
