@@ -1,6 +1,7 @@
 const {log} = require('./logger')
 const {auth} = require('./auth')
 const { ADMIN_PANNEL, DEV_TOOLS, TOOLS_TERMINAL, CONV_ADMIN } = require('./config')
+const crypto = require("crypto");
 
 const oneSessionIDlist = []
 let key = {}
@@ -18,25 +19,44 @@ class ADMIN extends auth {
         }
       }
 
-    generatorOneSessionID(longueur = 200) {
-      if(!this.admin) return 'you need to be an admin to do that'
+      generatorOneSessionID(adminId, length = 64, ttl = 1000 * 60) {
+      if (!this.admin) return "you need to be an admin to do that";
 
-      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&é!#{([-|è_/çà@)]=}';
-      let resultat = '';
-      for (let i = 0; i < longueur; i++) {
-        const index = Math.floor(Math.random() * caracteres.length);
-        resultat += caracteres[index];
+      const rawToken = crypto.randomBytes(length).toString("base64url");
+      const hashed = crypto.createHash("sha256").update(rawToken).digest("hex");
+
+      const apiKey = {
+        key: hashed,
+        adminId,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + ttl,
+      };
+    
+      for (let i = oneSessionIDlist.length - 1; i >= 0; i--) {
+        if (oneSessionIDlist[i].adminId === adminId) {
+          oneSessionIDlist.splice(i, 1);
+        }
       }
-      oneSessionIDlist.forEach((id) => {
-        oneSessionIDlist.pop()
-      })
-      oneSessionIDlist.push(resultat)
-      return resultat;
+
+      oneSessionIDlist.push(apiKey);
+
+      return rawToken;
     }
 
-    static auth (req) {
-      if (!oneSessionIDlist.includes(req.cookies.oneSessionID)) return false
-      return true 
+    static auth(req) {
+      const token = req.cookies.oneSessionID;
+      if (!token) return false;
+
+      const hashed = crypto.createHash("sha256").update(token).digest("hex");
+      const now = Date.now();
+
+      for (let i = oneSessionIDlist.length - 1; i >= 0; i--) {
+        if (oneSessionIDlist[i].expiresAt <= now) {
+          oneSessionIDlist.splice(i, 1);
+        }
+      }
+
+      return oneSessionIDlist.some((k) => k.key === hashed);
     }
 
     static canacess (oneSessionID, ...where) {
